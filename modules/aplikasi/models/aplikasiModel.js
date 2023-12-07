@@ -49,15 +49,3 @@ exports.updateAplikasi = (aplikasiId, updatedAplikasiData) => {
     });
   });
 };
-
-exports.deleteAplikasi = (aplikasiId) => {
-  return new Promise((resolve, reject) => {
-    db.query('DELETE FROM application WHERE id = ?', [aplikasiId], (error) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
-      }
-    });
-  });
-};
