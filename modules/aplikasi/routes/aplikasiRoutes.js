@@ -7,5 +7,6 @@ router.get('/aplikasi', aplikasiController.getAllAplikasi);
 router.get('/aplikasi/:id', aplikasiController.getAplikasiById);
 router.post('/aplikasi', aplikasiController.createAplikasi);
 router.put('/aplikasi/:id', aplikasiController.updateAplikasi);
+router.delete('/aplikasi/:id', aplikasiController.deleteAplikasi);
 
 module.exports = router;

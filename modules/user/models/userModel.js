@@ -49,3 +49,27 @@ exports.updateUser = (userId, updatedUserData) => {
     });
   });
 };
+
+exports.deleteUser = (userId) => {
+  return new Promise((resolve, reject) => {
+    db.query('DELETE FROM users WHERE id = ?', [userId], (error) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve();
+      }
+    });
+  });
+};
+
+exports.getUserByUsername = (username) => {
+  return new Promise((resolve, reject) => {
+    db.query('SELECT * FROM users WHERE username = ?', [username], (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results[0]);
+      }
+    });
+  });
+};

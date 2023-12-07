@@ -41,3 +41,13 @@ exports.updateAplikasi = async (req, res) => {
     response.error(res, error.message);
   }
 };
+
+exports.deleteAplikasi = async (req, res) => {
+  const aplikasiId = req.params.id;
+  try {
+    await aplikasiModel.deleteAplikasi(aplikasiId);
+    response.success(res, null, 204);
+  } catch (error) {
+    response.error(res, error.message);
+  }
+};
