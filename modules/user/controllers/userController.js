@@ -41,13 +41,3 @@ exports.updateUser = async (req, res) => {
     response.error(res, error.message);
   }
 };
-
-exports.deleteUser = async (req, res) => {
-  const userId = req.params.id;
-  try {
-    await userModel.deleteUser(userId);
-    response.success(res, null, 204);
-  } catch (error) {
-    response.error(res, error.message);
-  }
-};
