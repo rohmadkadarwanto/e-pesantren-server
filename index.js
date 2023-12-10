@@ -1,33 +1,31 @@
 // index.js
-const express = require('express');
-const swaggerUi = require('swagger-ui-express')
-const docsFile = require('./docs.json')
-const path = require('path');
-const bodyParser = require('body-parser');
+const Express = require('express');
+const SwaggerUi = require('swagger-ui-express');
+const DocsFile = require('./docs.json');
+const Path = require('path');
+const BodyParser = require('body-parser');
+const apiKeyUtil = require('./utils/apiKey');
+const appConfig = require('./config/appConfig');
 require('dotenv').config();
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+const App = Express();
 
 // Middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+App.use(BodyParser.json());
+App.use(BodyParser.urlencoded({ extended: true }));
 
-// Routes
+// Middleware untuk memeriksa API key di seluruh rute utama
+App.use(apiKeyUtil.verifyApiKeyMiddleware);
 
 /* Routes */
-const router = require('./routes')
+const Router = require('./routes');
 
 /* Middlewares */
-app.use(router)
+App.use(Router);
 
-app.use('/', swaggerUi.serve, swaggerUi.setup(docsFile))
-
-// Serve static files
-app.use(express.static(path.join(__dirname, 'public')));
-
+App.use('/', SwaggerUi.serve, SwaggerUi.setup(DocsFile));
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+App.listen(appConfig.app.port, () => {
+  console.log(`Server is running on http://localhost:${appConfig.app.port}`);
 });

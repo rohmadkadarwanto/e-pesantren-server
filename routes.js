@@ -1,47 +1,44 @@
+const Express = require('express');
+const Router = Express.Router();
 
-const express = require('express');
-const userRoutes = require('./modules/user/routes/userRoutes');
-const aplikasiRoutes = require('./modules/aplikasi/routes/aplikasiRoutes');
-const kelasRoutes = require('./modules/kelas/routes/kelasRoutes');
-const asatidRoutes = require('./modules/asatid/routes/asatidRoutes');
-const ayahSantriRoutes = require('./modules/ayah_santri/routes/ayahSantriRoutes');
-const clientRoutes = require('./modules/client/routes/clientRoutes');
-const coaAccountRoutes = require('./modules/coa_account/routes/coaAccountRoutes');
-const coaSubaccountRoutes = require('./modules/coa_subaccount/routes/coaSubaccountRoutes');
-const ibuSantriRoutes = require('./modules/ibu_santri/routes/ibuSantriRoutes');
-const lembagaRoutes = require('./modules/lembaga/routes/lembagaRoutes');
-const mataPelajaranRoutes = require('./modules/mata_pelajaran/routes/mataPelajaranRoutes');
-const newsRoutes = require('./modules/news/routes/newsRoutes');
-const salesRoutes = require('./modules/sales/routes/salesRoutes');
-const santriRoutes = require('./modules/santri/routes/santriRoutes');
-const settingKelasRoutes = require('./modules/setting_kelas/routes/settingKelasRoutes');
-const settingMapelRoutes = require('./modules/setting_mapel/routes/settingMapelRoutes');
-const transaksiRoutes = require('./modules/transaksi/routes/transaksiRoutes');
-const transaksiDetailRoutes = require('./modules/transaksi_detail/routes/transaksiDetailRoutes');
-const waliSantriRoutes = require('./modules/wali_santri/routes/waliSantriRoutes');
+const ApplicationRoutes = require('./modules/Application/routes/ApplicationRoutes');
+const AsatidRoutes = require('./modules/Asatid/routes/AsatidRoutes');
+const AyahSantriRoutes = require('./modules/AyahSantri/routes/AyahSantriRoutes');
+const ClientRoutes = require('./modules/Client/routes/ClientRoutes');
+const CoaAccountRoutes = require('./modules/CoaAccount/routes/CoaAccountRoutes');
+const CoaSubaccountRoutes = require('./modules/CoaSubaccount/routes/CoaSubaccountRoutes');
+const IbuSantriRoutes = require('./modules/IbuSantri/routes/IbuSantriRoutes');
+const KelasRoutes = require('./modules/Kelas/routes/KelasRoutes');
+const LembagaRoutes = require('./modules/Lembaga/routes/LembagaRoutes');
+const MataPelajaranRoutes = require('./modules/MataPelajaran/routes/MataPelajaranRoutes');
+const NewsRoutes = require('./modules/News/routes/NewsRoutes');
+const SalesRoutes = require('./modules/Sales/routes/SalesRoutes');
+const SantriRoutes = require('./modules/Santri/routes/SantriRoutes');
+const SettingKelasRoutes = require('./modules/SettingKelas/routes/SettingKelasRoutes');
+const SettingMapelRoutes = require('./modules/SettingMapel/routes/SettingMapelRoutes');
+const TransaksiRoutes = require('./modules/Transaksi/routes/TransaksiRoutes');
+const TransaksiDetailRoutes = require('./modules/TransaksiDetail/routes/TransaksiDetailRoutes');
+const UsersRoutes = require('./modules/Users/routes/UsersRoutes');
+const WaliSantriRoutes = require('./modules/WaliSantri/routes/WaliSantriRoutes');
 
-const router = express.Router()
+Router.use('/api', ApplicationRoutes);
+Router.use('/api', AsatidRoutes);
+Router.use('/api', AyahSantriRoutes);
+Router.use('/api', ClientRoutes);
+Router.use('/api', CoaAccountRoutes);
+Router.use('/api', CoaSubaccountRoutes);
+Router.use('/api', IbuSantriRoutes);
+Router.use('/api', KelasRoutes);
+Router.use('/api', LembagaRoutes);
+Router.use('/api', MataPelajaranRoutes);
+Router.use('/api', NewsRoutes);
+Router.use('/api', SalesRoutes);
+Router.use('/api', SantriRoutes);
+Router.use('/api', SettingKelasRoutes);
+Router.use('/api', SettingMapelRoutes);
+Router.use('/api', TransaksiRoutes);
+Router.use('/api', TransaksiDetailRoutes);
+Router.use('/api', UsersRoutes);
+Router.use('/api', WaliSantriRoutes);
 
-// Routes
-router.use('/api', userRoutes);
-router.use('/api', aplikasiRoutes);
-router.use('/api', kelasRoutes);
-
-router.use('/api', asatidRoutes);
-router.use('/api', ayahSantriRoutes);
-router.use('/api', clientRoutes);
-router.use('/api', coaAccountRoutes);
-router.use('/api', coaSubaccountRoutes);
-router.use('/api', ibuSantriRoutes);
-router.use('/api', lembagaRoutes);
-router.use('/api', mataPelajaranRoutes);
-router.use('/api', newsRoutes);
-router.use('/api', salesRoutes);
-router.use('/api', santriRoutes);
-router.use('/api', settingKelasRoutes);
-router.use('/api', settingKelasRoutes);
-router.use('/api', transaksiRoutes);
-router.use('/api', transaksiDetailRoutes);
-router.use('/api', waliSantriRoutes);
-
-module.exports = router
+module.exports = Router;
