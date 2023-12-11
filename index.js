@@ -14,9 +14,6 @@ const App = Express();
 App.use(BodyParser.json());
 App.use(BodyParser.urlencoded({ extended: true }));
 
-// Middleware untuk memeriksa API key di seluruh rute utama
-App.use(apiKeyUtil.verifyApiKeyMiddleware);
-
 /* Routes */
 const Router = require('./routes');
 
