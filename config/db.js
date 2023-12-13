@@ -5,7 +5,7 @@ const db = mysql.createConnection({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_DATABASE || 'db_ponpes_app',
+  database: process.env.DB_DATABASE || 'e_pesantren',
 });
 
 db.connect((err) => {
