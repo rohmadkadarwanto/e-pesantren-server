@@ -32,6 +32,9 @@ Sistem Management Pondok Pesantren
 
 7. Buka browser atau gunakan alat pengujian API (seperti [Postman](https://www.postman.com/)) untuk mengakses endpoint-endpoint yang disediakan.
 
+## Testing Berhasil
+- OS: Linux mint 18 , Windows 10, Linux CentOS 7
+
 ## Update
 
 - **Update selanjutnya:**
