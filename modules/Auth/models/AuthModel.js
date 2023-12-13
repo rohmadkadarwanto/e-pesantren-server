@@ -1,50 +1,36 @@
-// modules/auth/models/userModel.js
-const DB = require('../../../config/db');
+// modules/auth/models/AuthModel.js
+const { pool } = require('../../../config/db');
+
+const executeQuery = async (sql, values) => {
+  const connection = await pool.getConnection();
+  try {
+    const [rows] = await connection.query(sql, values);
+    return rows;
+  } catch (error) {
+    throw error;
+  } finally {
+    connection.release();
+  }
+};
 
 exports.createUser = (user) => {
-  return new Promise((resolve, reject) => {
-    DB.query('INSERT INTO users SET ?', user, (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results);
-      }
-    });
-  });
+  const sql = 'INSERT INTO users SET ?';
+  return executeQuery(sql, [user]);
 };
 
 exports.getUserByUsername = (username) => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM users WHERE username = ?', [username], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results[0]);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM users WHERE username = ?';
+  return executeQuery(sql, [username])
+    .then((results) => results[0]);
 };
 
 exports.updateUserPassword = (userId, newPassword) => {
-  return new Promise((resolve, reject) => {
-    DB.query('UPDATE users SET password = ? WHERE id = ?', [newPassword, userId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results);
-      }
-    });
-  });
+  const sql = 'UPDATE users SET password = ? WHERE id = ?';
+  return executeQuery(sql, [newPassword, userId]);
 };
 
 exports.getUserById = (userId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM users WHERE id = ?', [userId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results[0]);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM users WHERE id = ?';
+  return executeQuery(sql, [userId])
+    .then((results) => results[0]);
 };

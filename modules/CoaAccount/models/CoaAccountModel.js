@@ -1,65 +1,44 @@
 // modules/CoaAccount/models/{fileName}Model.js
-const DB = require('../../../config/db');
+const { pool } = require('../../../config/db');
+
+const executeQuery = async (sql, values) => {
+  const connection = await pool.getConnection();
+  try {
+    const [rows] = await connection.query(sql, values);
+    return rows;
+  } catch (error) {
+    throw error;
+  } finally {
+    connection.release();
+  }
+};
 
 exports.getAllCoaAccount = () => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM coa_account', (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM coa_account';
+  return executeQuery(sql);
 };
 
 exports.getCoaAccountById = (coaAccountId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM coa_account WHERE id = ?', [coaAccountId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results[0]);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM coa_account WHERE id = ?';
+  return executeQuery(sql, [coaAccountId]);
 };
 
 exports.createCoaAccount = (coaAccountData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('INSERT INTO coa_account SET ?', [coaAccountData], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        const newCoaAccount = { id: results.insertId, ...coaAccountData };
-        resolve(newCoaAccount);
-      }
+  const sql = 'INSERT INTO coa_account SET ?';
+  return executeQuery(sql, [coaAccountData])
+    .then((results) => {
+      const newCoaAccount = { id: results.insertId, ...coaAccountData };
+      return newCoaAccount;
     });
-  });
 };
 
 exports.updateCoaAccount = (coaAccountId, updatedCoaAccountData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('UPDATE coa_account SET ? WHERE id = ?', [updatedCoaAccountData, coaAccountId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve({ id: coaAccountId, ...updatedCoaAccountData });
-      }
-    });
-  });
+  const sql = 'UPDATE coa_account SET ? WHERE id = ?';
+  return executeQuery(sql, [updatedCoaAccountData, coaAccountId])
+    .then(() => ({ id: coaAccountId, ...updatedCoaAccountData }));
 };
 
 exports.deleteCoaAccount = (coaAccountId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('DELETE FROM coa_account WHERE id = ?', [coaAccountId], (error) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
-      }
-    });
-  });
+  const sql = 'DELETE FROM coa_account WHERE id = ?';
+  return executeQuery(sql, [coaAccountId]);
 };
-
-

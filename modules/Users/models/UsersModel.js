@@ -1,82 +1,54 @@
 // modules/Users/models/{fileName}Model.js
-const DB = require('../../../config/db');
+const { pool } = require('../../../config/db');
+
+const executeQuery = async (sql, values) => {
+  const connection = await pool.getConnection();
+  try {
+    const [rows] = await connection.query(sql, values);
+    return rows;
+  } catch (error) {
+    throw error;
+  } finally {
+    connection.release();
+  }
+};
 
 exports.getAllUsers = () => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM users', (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM users';
+  return executeQuery(sql);
 };
 
 exports.getUsersById = (usersId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM users WHERE id = ?', [usersId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results[0]);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM users WHERE id = ?';
+  return executeQuery(sql, [usersId]);
 };
+
 exports.getUserByUsername = (username) => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM users WHERE username = ?', [username], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results[0]);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM users WHERE username = ?';
+  return executeQuery(sql, [username]);
 };
+
 exports.updateUserPassword = (userId, newPassword) => {
-  return new Promise((resolve, reject) => {
-    DB.query('UPDATE users SET password = ? WHERE id = ?', [newPassword, userId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results);
-      }
-    });
-  });
+  const sql = 'UPDATE users SET password = ? WHERE id = ?';
+  return executeQuery(sql, [newPassword, userId]);
 };
+
 exports.createUsers = (usersData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('INSERT INTO users SET ?', [usersData], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        const newUsers = { id: results.insertId, ...usersData };
-        resolve(newUsers);
-      }
+  const sql = 'INSERT INTO users SET ?';
+  return executeQuery(sql, [usersData])
+    .then((results) => {
+      const newUsers = { id: results.insertId, ...usersData };
+      return newUsers;
     });
-  });
 };
+
 exports.updateUsers = (usersId, updatedUsersData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('UPDATE users SET ? WHERE id = ?', [updatedUsersData, usersId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve({ id: usersId, ...updatedUsersData });
-      }
-    });
-  });
+  const sql = 'UPDATE users SET ? WHERE id = ?';
+  return executeQuery(sql, [updatedUsersData, usersId])
+    .then(() => ({ id: usersId, ...updatedUsersData }));
 };
+
 exports.deleteUsers = (usersId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('DELETE FROM users WHERE id = ?', [usersId], (error) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
-      }
-    });
-  });
+  const sql = 'DELETE FROM users WHERE id = ?';
+  return executeQuery(sql, [usersId]);
 };

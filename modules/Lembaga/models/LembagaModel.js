@@ -1,65 +1,44 @@
 // modules/Lembaga/models/{fileName}Model.js
-const DB = require('../../../config/db');
+const { pool } = require('../../../config/db');
+
+const executeQuery = async (sql, values) => {
+  const connection = await pool.getConnection();
+  try {
+    const [rows] = await connection.query(sql, values);
+    return rows;
+  } catch (error) {
+    throw error;
+  } finally {
+    connection.release();
+  }
+};
 
 exports.getAllLembaga = () => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM lembaga', (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM lembaga';
+  return executeQuery(sql);
 };
 
 exports.getLembagaById = (lembagaId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM lembaga WHERE id = ?', [lembagaId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results[0]);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM lembaga WHERE id = ?';
+  return executeQuery(sql, [lembagaId]);
 };
 
 exports.createLembaga = (lembagaData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('INSERT INTO lembaga SET ?', [lembagaData], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        const newLembaga = { id: results.insertId, ...lembagaData };
-        resolve(newLembaga);
-      }
+  const sql = 'INSERT INTO lembaga SET ?';
+  return executeQuery(sql, [lembagaData])
+    .then((results) => {
+      const newLembaga = { id: results.insertId, ...lembagaData };
+      return newLembaga;
     });
-  });
 };
 
 exports.updateLembaga = (lembagaId, updatedLembagaData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('UPDATE lembaga SET ? WHERE id = ?', [updatedLembagaData, lembagaId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve({ id: lembagaId, ...updatedLembagaData });
-      }
-    });
-  });
+  const sql = 'UPDATE lembaga SET ? WHERE id = ?';
+  return executeQuery(sql, [updatedLembagaData, lembagaId])
+    .then(() => ({ id: lembagaId, ...updatedLembagaData }));
 };
 
 exports.deleteLembaga = (lembagaId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('DELETE FROM lembaga WHERE id = ?', [lembagaId], (error) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
-      }
-    });
-  });
+  const sql = 'DELETE FROM lembaga WHERE id = ?';
+  return executeQuery(sql, [lembagaId]);
 };
-
-

@@ -1,75 +1,49 @@
 // modules/Application/models/{fileName}Model.js
-const DB = require('../../../config/db');
+const { pool } = require('../../../config/db');
+
+const executeQuery = async (sql, values) => {
+  const connection = await pool.getConnection();
+  try {
+    const [rows] = await connection.query(sql, values);
+    return rows;
+  } catch (error) {
+    throw error;
+  } finally {
+    connection.release();
+  }
+};
 
 exports.getAllApplication = () => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM application', (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM application';
+  return executeQuery(sql);
 };
 
 exports.getApplicationById = (applicationId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM application WHERE id = ?', [applicationId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results[0]);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM application WHERE id = ?';
+  return executeQuery(sql, [applicationId]);
 };
 
 exports.getApplicationByPackage = (applicationPackage) => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM application WHERE package = ?', [applicationPackage], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results[0]);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM application WHERE package = ?';
+  return executeQuery(sql, [applicationPackage]);
 };
 
 exports.createApplication = (applicationData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('INSERT INTO application SET ?', [applicationData], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        const newApplication = { id: results.insertId, ...applicationData };
-        resolve(newApplication);
-      }
+  const sql = 'INSERT INTO application SET ?';
+  return executeQuery(sql, [applicationData])
+    .then((results) => {
+      const newApplication = { id: results.insertId, ...applicationData };
+      return newApplication;
     });
-  });
 };
 
 exports.updateApplication = (applicationId, updatedApplicationData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('UPDATE application SET ? WHERE id = ?', [updatedApplicationData, applicationId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve({ id: applicationId, ...updatedApplicationData });
-      }
-    });
-  });
+  const sql = 'UPDATE application SET ? WHERE id = ?';
+  return executeQuery(sql, [updatedApplicationData, applicationId])
+    .then(() => ({ id: applicationId, ...updatedApplicationData }));
 };
 
 exports.deleteApplication = (applicationId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('DELETE FROM application WHERE id = ?', [applicationId], (error) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
-      }
-    });
-  });
+  const sql = 'DELETE FROM application WHERE id = ?';
+  return executeQuery(sql, [applicationId]);
 };

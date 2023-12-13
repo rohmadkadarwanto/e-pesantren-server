@@ -1,65 +1,44 @@
 // modules/IbuSantri/models/{fileName}Model.js
-const DB = require('../../../config/db');
+const { pool } = require('../../../config/db');
+
+const executeQuery = async (sql, values) => {
+  const connection = await pool.getConnection();
+  try {
+    const [rows] = await connection.query(sql, values);
+    return rows;
+  } catch (error) {
+    throw error;
+  } finally {
+    connection.release();
+  }
+};
 
 exports.getAllIbuSantri = () => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM ibu_santri', (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM ibu_santri';
+  return executeQuery(sql);
 };
 
 exports.getIbuSantriById = (ibuSantriId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM ibu_santri WHERE id = ?', [ibuSantriId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results[0]);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM ibu_santri WHERE id = ?';
+  return executeQuery(sql, [ibuSantriId]);
 };
 
 exports.createIbuSantri = (ibuSantriData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('INSERT INTO ibu_santri SET ?', [ibuSantriData], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        const newIbuSantri = { id: results.insertId, ...ibuSantriData };
-        resolve(newIbuSantri);
-      }
+  const sql = 'INSERT INTO ibu_santri SET ?';
+  return executeQuery(sql, [ibuSantriData])
+    .then((results) => {
+      const newIbuSantri = { id: results.insertId, ...ibuSantriData };
+      return newIbuSantri;
     });
-  });
 };
 
 exports.updateIbuSantri = (ibuSantriId, updatedIbuSantriData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('UPDATE ibu_santri SET ? WHERE id = ?', [updatedIbuSantriData, ibuSantriId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve({ id: ibuSantriId, ...updatedIbuSantriData });
-      }
-    });
-  });
+  const sql = 'UPDATE ibu_santri SET ? WHERE id = ?';
+  return executeQuery(sql, [updatedIbuSantriData, ibuSantriId])
+    .then(() => ({ id: ibuSantriId, ...updatedIbuSantriData }));
 };
 
 exports.deleteIbuSantri = (ibuSantriId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('DELETE FROM ibu_santri WHERE id = ?', [ibuSantriId], (error) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
-      }
-    });
-  });
+  const sql = 'DELETE FROM ibu_santri WHERE id = ?';
+  return executeQuery(sql, [ibuSantriId]);
 };
-
-

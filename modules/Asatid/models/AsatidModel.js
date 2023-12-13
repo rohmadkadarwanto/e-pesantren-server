@@ -1,65 +1,44 @@
 // modules/Asatid/models/{fileName}Model.js
-const DB = require('../../../config/db');
+const { pool } = require('../../../config/db');
+
+const executeQuery = async (sql, values) => {
+  const connection = await pool.getConnection();
+  try {
+    const [rows] = await connection.query(sql, values);
+    return rows;
+  } catch (error) {
+    throw error;
+  } finally {
+    connection.release();
+  }
+};
 
 exports.getAllAsatid = () => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM asatid', (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM asatid';
+  return executeQuery(sql);
 };
 
 exports.getAsatidById = (asatidId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM asatid WHERE id = ?', [asatidId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results[0]);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM asatid WHERE id = ?';
+  return executeQuery(sql, [asatidId]);
 };
 
 exports.createAsatid = (asatidData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('INSERT INTO asatid SET ?', [asatidData], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        const newAsatid = { id: results.insertId, ...asatidData };
-        resolve(newAsatid);
-      }
+  const sql = 'INSERT INTO asatid SET ?';
+  return executeQuery(sql, [asatidData])
+    .then((results) => {
+      const newAsatid = { id: results.insertId, ...asatidData };
+      return newAsatid;
     });
-  });
 };
 
 exports.updateAsatid = (asatidId, updatedAsatidData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('UPDATE asatid SET ? WHERE id = ?', [updatedAsatidData, asatidId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve({ id: asatidId, ...updatedAsatidData });
-      }
-    });
-  });
+  const sql = 'UPDATE asatid SET ? WHERE id = ?';
+  return executeQuery(sql, [updatedAsatidData, asatidId])
+    .then(() => ({ id: asatidId, ...updatedAsatidData }));
 };
 
 exports.deleteAsatid = (asatidId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('DELETE FROM asatid WHERE id = ?', [asatidId], (error) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
-      }
-    });
-  });
+  const sql = 'DELETE FROM asatid WHERE id = ?';
+  return executeQuery(sql, [asatidId]);
 };
-
-

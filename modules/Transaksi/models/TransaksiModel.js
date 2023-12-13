@@ -1,65 +1,44 @@
 // modules/Transaksi/models/{fileName}Model.js
-const DB = require('../../../config/db');
+const { pool } = require('../../../config/db');
+
+const executeQuery = async (sql, values) => {
+  const connection = await pool.getConnection();
+  try {
+    const [rows] = await connection.query(sql, values);
+    return rows;
+  } catch (error) {
+    throw error;
+  } finally {
+    connection.release();
+  }
+};
 
 exports.getAllTransaksi = () => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM transaksi', (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM transaksi';
+  return executeQuery(sql);
 };
 
 exports.getTransaksiById = (transaksiId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM transaksi WHERE id = ?', [transaksiId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results[0]);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM transaksi WHERE id = ?';
+  return executeQuery(sql, [transaksiId]);
 };
 
 exports.createTransaksi = (transaksiData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('INSERT INTO transaksi SET ?', [transaksiData], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        const newTransaksi = { id: results.insertId, ...transaksiData };
-        resolve(newTransaksi);
-      }
+  const sql = 'INSERT INTO transaksi SET ?';
+  return executeQuery(sql, [transaksiData])
+    .then((results) => {
+      const newTransaksi = { id: results.insertId, ...transaksiData };
+      return newTransaksi;
     });
-  });
 };
 
 exports.updateTransaksi = (transaksiId, updatedTransaksiData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('UPDATE transaksi SET ? WHERE id = ?', [updatedTransaksiData, transaksiId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve({ id: transaksiId, ...updatedTransaksiData });
-      }
-    });
-  });
+  const sql = 'UPDATE transaksi SET ? WHERE id = ?';
+  return executeQuery(sql, [updatedTransaksiData, transaksiId])
+    .then(() => ({ id: transaksiId, ...updatedTransaksiData }));
 };
 
 exports.deleteTransaksi = (transaksiId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('DELETE FROM transaksi WHERE id = ?', [transaksiId], (error) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
-      }
-    });
-  });
+  const sql = 'DELETE FROM transaksi WHERE id = ?';
+  return executeQuery(sql, [transaksiId]);
 };
-
-

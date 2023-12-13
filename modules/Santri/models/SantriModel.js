@@ -1,75 +1,49 @@
 // modules/Santri/models/{fileName}Model.js
-const DB = require('../../../config/db');
+const { pool } = require('../../../config/db');
+
+const executeQuery = async (sql, values) => {
+  const connection = await pool.getConnection();
+  try {
+    const [rows] = await connection.query(sql, values);
+    return rows;
+  } catch (error) {
+    throw error;
+  } finally {
+    connection.release();
+  }
+};
 
 exports.getAllSantri = () => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM santri', (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM santri';
+  return executeQuery(sql);
 };
 
 exports.getSantriById = (santriId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM santri WHERE id = ?', [santriId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results[0]);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM santri WHERE id = ?';
+  return executeQuery(sql, [santriId]);
 };
 
 exports.getSantriByNis = (santriNis) => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM santri WHERE nis = ?', [santriNis], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results[0]);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM santri WHERE nis = ?';
+  return executeQuery(sql, [santriNis]);
 };
 
 exports.createSantri = (santriData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('INSERT INTO santri SET ?', [santriData], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        const newSantri = { id: results.insertId, ...santriData };
-        resolve(newSantri);
-      }
+  const sql = 'INSERT INTO santri SET ?';
+  return executeQuery(sql, [santriData])
+    .then((results) => {
+      const newSantri = { id: results.insertId, ...santriData };
+      return newSantri;
     });
-  });
 };
 
 exports.updateSantri = (santriId, updatedSantriData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('UPDATE santri SET ? WHERE id = ?', [updatedSantriData, santriId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve({ id: santriId, ...updatedSantriData });
-      }
-    });
-  });
+  const sql = 'UPDATE santri SET ? WHERE id = ?';
+  return executeQuery(sql, [updatedSantriData, santriId])
+    .then(() => ({ id: santriId, ...updatedSantriData }));
 };
 
 exports.deleteSantri = (santriId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('DELETE FROM santri WHERE id = ?', [santriId], (error) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
-      }
-    });
-  });
+  const sql = 'DELETE FROM santri WHERE id = ?';
+  return executeQuery(sql, [santriId]);
 };

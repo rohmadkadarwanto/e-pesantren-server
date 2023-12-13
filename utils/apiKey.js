@@ -1,8 +1,22 @@
-// utils/apiKey.js
-const DB = require('../config/db');
+const mysql = require('mysql2/promise');
+const crypto = require('crypto');
+const { dbConfig } = require('../config/db');
 const appConfig = require('../config/appConfig');
 const Response = require('./response');
-const apiKeyUtil = require('./apiKey');
+
+const pool = mysql.createPool(dbConfig);
+
+const executeQuery = async (sql, values) => {
+  const connection = await pool.getConnection();
+  try {
+    const [rows] = await connection.query(sql, values);
+    return rows;
+  } catch (error) {
+    throw error;
+  } finally {
+    connection.release();
+  }
+};
 
 exports.generateApiKey = () => {
   const apiKey = crypto.randomBytes(32).toString('hex');
@@ -14,7 +28,7 @@ exports.saveApiKey = async (namaAplikasi, package, client) => {
     const apiKey = this.generateApiKey();
 
     const query = 'INSERT INTO application (name, package, client, `key`, status, type) VALUES (?, ?, ?, ?, ?, ?)';
-    await DB.query(query, [namaAplikasi, package, client, apiKey, 1, 1]);
+    await executeQuery(query, [namaAplikasi, package, client, apiKey, 1, 1]);
 
     return apiKey;
   } catch (error) {
@@ -25,7 +39,7 @@ exports.saveApiKey = async (namaAplikasi, package, client) => {
 
 exports.verifyApiKey = async (apiKey) => {
   try {
-    const result = await DB.query('SELECT * FROM application WHERE `key` = ? AND `status` = 1', [apiKey]);
+    const result = await executeQuery('SELECT * FROM application WHERE `key` = ? AND `status` = 1', [apiKey]);
 
     if (result.length === 0) {
       return false;
@@ -52,7 +66,7 @@ exports.apiKeyMiddleware = async (req, res, next) => {
       return Response.error(res, 'Default API key is not allowed', 401);
     }
 
-    const isValidApiKey = await this.verifyApiKey(apiKey);
+    const isValidApiKey = await exports.verifyApiKey(apiKey);
 
     if (!isValidApiKey) {
       return Response.error(res, 'Invalid API key', 401);

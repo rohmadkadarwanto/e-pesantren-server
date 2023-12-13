@@ -1,65 +1,44 @@
 // modules/SettingMapel/models/{fileName}Model.js
-const DB = require('../../../config/db');
+const { pool } = require('../../../config/db');
+
+const executeQuery = async (sql, values) => {
+  const connection = await pool.getConnection();
+  try {
+    const [rows] = await connection.query(sql, values);
+    return rows;
+  } catch (error) {
+    throw error;
+  } finally {
+    connection.release();
+  }
+};
 
 exports.getAllSettingMapel = () => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM setting_mapel', (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM setting_mapel';
+  return executeQuery(sql);
 };
 
 exports.getSettingMapelById = (settingMapelId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM setting_mapel WHERE id = ?', [settingMapelId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results[0]);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM setting_mapel WHERE id = ?';
+  return executeQuery(sql, [settingMapelId]);
 };
 
 exports.createSettingMapel = (settingMapelData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('INSERT INTO setting_mapel SET ?', [settingMapelData], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        const newSettingMapel = { id: results.insertId, ...settingMapelData };
-        resolve(newSettingMapel);
-      }
+  const sql = 'INSERT INTO setting_mapel SET ?';
+  return executeQuery(sql, [settingMapelData])
+    .then((results) => {
+      const newSettingMapel = { id: results.insertId, ...settingMapelData };
+      return newSettingMapel;
     });
-  });
 };
 
 exports.updateSettingMapel = (settingMapelId, updatedSettingMapelData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('UPDATE setting_mapel SET ? WHERE id = ?', [updatedSettingMapelData, settingMapelId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve({ id: settingMapelId, ...updatedSettingMapelData });
-      }
-    });
-  });
+  const sql = 'UPDATE setting_mapel SET ? WHERE id = ?';
+  return executeQuery(sql, [updatedSettingMapelData, settingMapelId])
+    .then(() => ({ id: settingMapelId, ...updatedSettingMapelData }));
 };
 
 exports.deleteSettingMapel = (settingMapelId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('DELETE FROM setting_mapel WHERE id = ?', [settingMapelId], (error) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
-      }
-    });
-  });
+  const sql = 'DELETE FROM setting_mapel WHERE id = ?';
+  return executeQuery(sql, [settingMapelId]);
 };
-
-

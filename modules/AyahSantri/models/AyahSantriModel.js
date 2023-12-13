@@ -1,65 +1,44 @@
 // modules/AyahSantri/models/{fileName}Model.js
-const DB = require('../../../config/db');
+const { pool } = require('../../../config/db');
+
+const executeQuery = async (sql, values) => {
+  const connection = await pool.getConnection();
+  try {
+    const [rows] = await connection.query(sql, values);
+    return rows;
+  } catch (error) {
+    throw error;
+  } finally {
+    connection.release();
+  }
+};
 
 exports.getAllAyahSantri = () => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM ayah_santri', (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM ayah_santri';
+  return executeQuery(sql);
 };
 
 exports.getAyahSantriById = (ayahSantriId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM ayah_santri WHERE id = ?', [ayahSantriId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results[0]);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM ayah_santri WHERE id = ?';
+  return executeQuery(sql, [ayahSantriId]);
 };
 
 exports.createAyahSantri = (ayahSantriData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('INSERT INTO ayah_santri SET ?', [ayahSantriData], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        const newAyahSantri = { id: results.insertId, ...ayahSantriData };
-        resolve(newAyahSantri);
-      }
+  const sql = 'INSERT INTO ayah_santri SET ?';
+  return executeQuery(sql, [ayahSantriData])
+    .then((results) => {
+      const newAyahSantri = { id: results.insertId, ...ayahSantriData };
+      return newAyahSantri;
     });
-  });
 };
 
 exports.updateAyahSantri = (ayahSantriId, updatedAyahSantriData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('UPDATE ayah_santri SET ? WHERE id = ?', [updatedAyahSantriData, ayahSantriId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve({ id: ayahSantriId, ...updatedAyahSantriData });
-      }
-    });
-  });
+  const sql = 'UPDATE ayah_santri SET ? WHERE id = ?';
+  return executeQuery(sql, [updatedAyahSantriData, ayahSantriId])
+    .then(() => ({ id: ayahSantriId, ...updatedAyahSantriData }));
 };
 
 exports.deleteAyahSantri = (ayahSantriId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('DELETE FROM ayah_santri WHERE id = ?', [ayahSantriId], (error) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
-      }
-    });
-  });
+  const sql = 'DELETE FROM ayah_santri WHERE id = ?';
+  return executeQuery(sql, [ayahSantriId]);
 };
-
-

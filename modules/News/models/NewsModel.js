@@ -1,65 +1,44 @@
 // modules/News/models/{fileName}Model.js
-const DB = require('../../../config/db');
+const { pool } = require('../../../config/db');
+
+const executeQuery = async (sql, values) => {
+  const connection = await pool.getConnection();
+  try {
+    const [rows] = await connection.query(sql, values);
+    return rows;
+  } catch (error) {
+    throw error;
+  } finally {
+    connection.release();
+  }
+};
 
 exports.getAllNews = () => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM news', (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM news';
+  return executeQuery(sql);
 };
 
 exports.getNewsById = (newsId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM news WHERE id = ?', [newsId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results[0]);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM news WHERE id = ?';
+  return executeQuery(sql, [newsId]);
 };
 
 exports.createNews = (newsData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('INSERT INTO news SET ?', [newsData], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        const newNews = { id: results.insertId, ...newsData };
-        resolve(newNews);
-      }
+  const sql = 'INSERT INTO news SET ?';
+  return executeQuery(sql, [newsData])
+    .then((results) => {
+      const newNews = { id: results.insertId, ...newsData };
+      return newNews;
     });
-  });
 };
 
 exports.updateNews = (newsId, updatedNewsData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('UPDATE news SET ? WHERE id = ?', [updatedNewsData, newsId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve({ id: newsId, ...updatedNewsData });
-      }
-    });
-  });
+  const sql = 'UPDATE news SET ? WHERE id = ?';
+  return executeQuery(sql, [updatedNewsData, newsId])
+    .then(() => ({ id: newsId, ...updatedNewsData }));
 };
 
 exports.deleteNews = (newsId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('DELETE FROM news WHERE id = ?', [newsId], (error) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
-      }
-    });
-  });
+  const sql = 'DELETE FROM news WHERE id = ?';
+  return executeQuery(sql, [newsId]);
 };
-
-

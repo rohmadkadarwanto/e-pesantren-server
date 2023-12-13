@@ -1,75 +1,49 @@
 // modules/Client/models/{fileName}Model.js
-const DB = require('../../../config/db');
+const { pool } = require('../../../config/db');
+
+const executeQuery = async (sql, values) => {
+  const connection = await pool.getConnection();
+  try {
+    const [rows] = await connection.query(sql, values);
+    return rows;
+  } catch (error) {
+    throw error;
+  } finally {
+    connection.release();
+  }
+};
 
 exports.getAllClient = () => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM client', (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM client';
+  return executeQuery(sql);
 };
 
 exports.getClientById = (clientId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM client WHERE id = ?', [clientId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results[0]);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM client WHERE id = ?';
+  return executeQuery(sql, [clientId]);
 };
 
 exports.getClientByApp = (clientApp) => {
-  return new Promise((resolve, reject) => {
-    DB.query('SELECT * FROM client WHERE app = ?', [clientApp], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results[0]);
-      }
-    });
-  });
+  const sql = 'SELECT * FROM client WHERE app = ?';
+  return executeQuery(sql, [clientApp]);
 };
 
 exports.createClient = (clientData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('INSERT INTO client SET ?', [clientData], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        const newClient = { id: results.insertId, ...clientData };
-        resolve(newClient);
-      }
+  const sql = 'INSERT INTO client SET ?';
+  return executeQuery(sql, [clientData])
+    .then((results) => {
+      const newClient = { id: results.insertId, ...clientData };
+      return newClient;
     });
-  });
 };
 
 exports.updateClient = (clientId, updatedClientData) => {
-  return new Promise((resolve, reject) => {
-    DB.query('UPDATE client SET ? WHERE id = ?', [updatedClientData, clientId], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve({ id: clientId, ...updatedClientData });
-      }
-    });
-  });
+  const sql = 'UPDATE client SET ? WHERE id = ?';
+  return executeQuery(sql, [updatedClientData, clientId])
+    .then(() => ({ id: clientId, ...updatedClientData }));
 };
 
 exports.deleteClient = (clientId) => {
-  return new Promise((resolve, reject) => {
-    DB.query('DELETE FROM client WHERE id = ?', [clientId], (error) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
-      }
-    });
-  });
+  const sql = 'DELETE FROM client WHERE id = ?';
+  return executeQuery(sql, [clientId]);
 };

@@ -1,19 +1,20 @@
 // config/db.js
-const mysql = require('mysql');
+const mysql = require('mysql2/promise');
+const appConfig = require('./appConfig');
 
-const db = mysql.createConnection({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_DATABASE || 'e_pesantren',
-});
+const dbConfig = {
+  host: appConfig.db.host,
+  user: appConfig.db.user,
+  password: appConfig.db.password,
+  database: appConfig.db.database,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
+};
 
-db.connect((err) => {
-  if (err) {
-    console.error('Error connecting to database:', err);
-  } else {
-    console.log('Connected to database');
-  }
-});
+const pool = mysql.createPool(dbConfig);
 
-module.exports = db;
+module.exports = {
+  dbConfig,
+  pool,
+};
