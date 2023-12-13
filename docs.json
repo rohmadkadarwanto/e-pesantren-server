@@ -5,7 +5,7 @@
     "title": "REST API Aplikasi Pesntren",
     "description": "Dokumentasi REST API Aplikasi Pesntren"
   },
-  "host": "localhost:3000",
+  "host": "api.appschool.biz.id:3000",
   "basePath": "/",
   "schemes": [
     "http",
