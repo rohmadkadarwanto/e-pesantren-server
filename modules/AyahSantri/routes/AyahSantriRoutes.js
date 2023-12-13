@@ -2,10 +2,10 @@
 const Express = require('express');
 const Router = Express.Router();
 const AyahSantri = require('../controllers/AyahSantriController');
-const apiKeyUtil = require('../../../utils/apiKey');
+const apiKeyMiddleware = require('../../../utils/apiKey').apiKeyMiddleware;
 
 // Middleware untuk memeriksa API key
-Router.use(apiKeyUtil.verifyApiKeyMiddleware);
+Router.use(apiKeyMiddleware);
 
 Router.get('/ayah-santri', AyahSantri.getAllAyahSantri);
 Router.get('/ayah-santri/:id', AyahSantri.getAyahSantriById);

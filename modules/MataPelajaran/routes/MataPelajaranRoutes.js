@@ -2,10 +2,10 @@
 const Express = require('express');
 const Router = Express.Router();
 const MataPelajaran = require('../controllers/MataPelajaranController');
-const apiKeyUtil = require('../../../utils/apiKey');
+const apiKeyMiddleware = require('../../../utils/apiKey').apiKeyMiddleware;
 
 // Middleware untuk memeriksa API key
-Router.use(apiKeyUtil.verifyApiKeyMiddleware);
+Router.use(apiKeyMiddleware);
 
 Router.get('/mata-pelajaran', MataPelajaran.getAllMataPelajaran);
 Router.get('/mata-pelajaran/:id', MataPelajaran.getMataPelajaranById);

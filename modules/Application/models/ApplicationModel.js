@@ -25,6 +25,18 @@ exports.getApplicationById = (applicationId) => {
   });
 };
 
+exports.getApplicationByPackage = (applicationPackage) => {
+  return new Promise((resolve, reject) => {
+    DB.query('SELECT * FROM application WHERE package = ?', [applicationPackage], (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results[0]);
+      }
+    });
+  });
+};
+
 exports.createApplication = (applicationData) => {
   return new Promise((resolve, reject) => {
     DB.query('INSERT INTO application SET ?', [applicationData], (error, results) => {
@@ -61,5 +73,3 @@ exports.deleteApplication = (applicationId) => {
     });
   });
 };
-
-

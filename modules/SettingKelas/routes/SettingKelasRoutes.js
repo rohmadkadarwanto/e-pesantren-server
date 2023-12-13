@@ -2,10 +2,10 @@
 const Express = require('express');
 const Router = Express.Router();
 const SettingKelas = require('../controllers/SettingKelasController');
-const apiKeyUtil = require('../../../utils/apiKey');
+const apiKeyMiddleware = require('../../../utils/apiKey').apiKeyMiddleware;
 
 // Middleware untuk memeriksa API key
-Router.use(apiKeyUtil.verifyApiKeyMiddleware);
+Router.use(apiKeyMiddleware);
 
 Router.get('/setting-kelas', SettingKelas.getAllSettingKelas);
 Router.get('/setting-kelas/:id', SettingKelas.getSettingKelasById);

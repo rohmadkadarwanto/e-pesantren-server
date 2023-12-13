@@ -21,6 +21,16 @@ exports.getClientById = async (req, res) => {
   }
 };
 
+exports.getClientByApp = async (req, res) => {
+  const ClientApp = req.params.app;
+  try {
+    const Client = await ClientModel.getClientByApp(ClientApp);
+    Response.success(res, Client);
+  } catch (error) {
+    Response.error(res, error.message);
+  }
+};
+
 exports.createClient = async (req, res) => {
   const { code, name, email, phone, website, logo, address } = req.body;
   try {

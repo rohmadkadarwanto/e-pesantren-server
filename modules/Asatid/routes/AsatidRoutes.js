@@ -2,10 +2,10 @@
 const Express = require('express');
 const Router = Express.Router();
 const Asatid = require('../controllers/AsatidController');
-const apiKeyUtil = require('../../../utils/apiKey');
+const apiKeyMiddleware = require('../../../utils/apiKey').apiKeyMiddleware;
 
 // Middleware untuk memeriksa API key
-Router.use(apiKeyUtil.verifyApiKeyMiddleware);
+Router.use(apiKeyMiddleware);
 
 Router.get('/asatid', Asatid.getAllAsatid);
 Router.get('/asatid/:id', Asatid.getAsatidById);

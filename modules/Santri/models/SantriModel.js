@@ -25,6 +25,18 @@ exports.getSantriById = (santriId) => {
   });
 };
 
+exports.getSantriByNis = (santriNis) => {
+  return new Promise((resolve, reject) => {
+    DB.query('SELECT * FROM santri WHERE nis = ?', [santriNis], (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results[0]);
+      }
+    });
+  });
+};
+
 exports.createSantri = (santriData) => {
   return new Promise((resolve, reject) => {
     DB.query('INSERT INTO santri SET ?', [santriData], (error, results) => {
@@ -61,5 +73,3 @@ exports.deleteSantri = (santriId) => {
     });
   });
 };
-
-

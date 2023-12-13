@@ -2,10 +2,10 @@
 const Express = require('express');
 const Router = Express.Router();
 const CoaAccount = require('../controllers/CoaAccountController');
-const apiKeyUtil = require('../../../utils/apiKey');
+const apiKeyMiddleware = require('../../../utils/apiKey').apiKeyMiddleware;
 
 // Middleware untuk memeriksa API key
-Router.use(apiKeyUtil.verifyApiKeyMiddleware);
+Router.use(apiKeyMiddleware);
 
 Router.get('/coa-account', CoaAccount.getAllCoaAccount);
 Router.get('/coa-account/:id', CoaAccount.getCoaAccountById);

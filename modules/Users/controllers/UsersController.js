@@ -1,4 +1,5 @@
 // modules/Users/controllers/UsersController.js
+const bcrypt = require('bcryptjs');
 const UsersModel = require('../models/UsersModel');
 const Response = require('../../../utils/response');
 
@@ -23,8 +24,10 @@ exports.getUsersById = async (req, res) => {
 
 exports.createUsers = async (req, res) => {
   const { username, password, email, status, level } = req.body;
+  // Continue with user registration
+  const hashedPassword = await bcrypt.hash(password, 10);
   try {
-    const newUsers = await UsersModel.createUsers({ username, password, email, status, level });
+    const newUsers = await UsersModel.createUsers({ username, password: hashedPassword, email, status, level });
     Response.success(res, newUsers, 201);
   } catch (error) {
     Response.error(res, error.message);

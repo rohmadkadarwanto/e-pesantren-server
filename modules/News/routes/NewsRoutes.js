@@ -2,10 +2,10 @@
 const Express = require('express');
 const Router = Express.Router();
 const News = require('../controllers/NewsController');
-const apiKeyUtil = require('../../../utils/apiKey');
+const apiKeyMiddleware = require('../../../utils/apiKey').apiKeyMiddleware;
 
 // Middleware untuk memeriksa API key
-Router.use(apiKeyUtil.verifyApiKeyMiddleware);
+Router.use(apiKeyMiddleware);
 
 Router.get('/news', News.getAllNews);
 Router.get('/news/:id', News.getNewsById);

@@ -22,6 +22,16 @@ exports.getApplicationById = async (req, res) => {
   }
 };
 
+exports.getApplicationByPackage = async (req, res) => {
+  const applicationPackage= req.params.package;
+  try {
+    const application = await ApplicationModel.getApplicationByPackage(applicationPackage);
+    Response.success(res, application);
+  } catch (error) {
+    Response.error(res, error.message);
+  }
+};
+
 exports.createApplication = async (req, res) => {
   const { name, package, client, status, type } = req.body;
 

@@ -2,10 +2,10 @@
 const Express = require('express');
 const Router = Express.Router();
 const Users = require('../controllers/UsersController');
-const apiKeyUtil = require('../../../utils/apiKey');
+const apiKeyMiddleware = require('../../../utils/apiKey').apiKeyMiddleware;
 
 // Middleware untuk memeriksa API key
-Router.use(apiKeyUtil.verifyApiKeyMiddleware);
+Router.use(apiKeyMiddleware);
 
 Router.get('/users', Users.getAllUsers);
 Router.get('/users/:id', Users.getUsersById);

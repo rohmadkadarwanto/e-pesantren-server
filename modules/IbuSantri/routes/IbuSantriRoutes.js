@@ -2,10 +2,10 @@
 const Express = require('express');
 const Router = Express.Router();
 const IbuSantri = require('../controllers/IbuSantriController');
-const apiKeyUtil = require('../../../utils/apiKey');
+const apiKeyMiddleware = require('../../../utils/apiKey').apiKeyMiddleware;
 
 // Middleware untuk memeriksa API key
-Router.use(apiKeyUtil.verifyApiKeyMiddleware);
+Router.use(apiKeyMiddleware);
 
 Router.get('/ibu-santri', IbuSantri.getAllIbuSantri);
 Router.get('/ibu-santri/:id', IbuSantri.getIbuSantriById);

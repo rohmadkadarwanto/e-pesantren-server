@@ -21,6 +21,16 @@ exports.getSantriById = async (req, res) => {
   }
 };
 
+exports.getSantriByNis = async (req, res) => {
+  const SantriNis = req.params.nis;
+  try {
+    const Santri = await SantriModel.getSantriByNis(SantriNis);
+    Response.success(res, Santri);
+  } catch (error) {
+    Response.error(res, error.message);
+  }
+};
+
 exports.createSantri = async (req, res) => {
   const { nis, app, name, tmp_lahir, tgl_lahir, address, status } = req.body;
   try {

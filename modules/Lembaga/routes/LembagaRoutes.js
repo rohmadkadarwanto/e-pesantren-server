@@ -2,10 +2,10 @@
 const Express = require('express');
 const Router = Express.Router();
 const Lembaga = require('../controllers/LembagaController');
-const apiKeyUtil = require('../../../utils/apiKey');
+const apiKeyMiddleware = require('../../../utils/apiKey').apiKeyMiddleware;
 
 // Middleware untuk memeriksa API key
-Router.use(apiKeyUtil.verifyApiKeyMiddleware);
+Router.use(apiKeyMiddleware);
 
 Router.get('/lembaga', Lembaga.getAllLembaga);
 Router.get('/lembaga/:id', Lembaga.getLembagaById);

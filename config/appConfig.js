@@ -3,7 +3,11 @@ module.exports = {
   // Konfigurasi Aplikasi
   app: {
     port: process.env.PORT || 3000,
-    apiKeyHeader: 'api-key', // Nama header yang digunakan untuk API key
-    defaultApiKey: 'd9741a2e5ff8c83e91ff92c528b6f6fc', // Nilai default API key
+    defaultAuthorization: '',
+    cryptoKey:'cryptoKey',
+    jwtExpiration:'jwtExpiration',
+    jwtSecret: 'jwtSecret',
+    apiKeyHeader: 'X-API-KEY', // Nama header yang digunakan untuk API key
+    defaultApiKey: 'f88fccc6204c03bf05fda50c698282e5', // Nilai default API key
   },
 };

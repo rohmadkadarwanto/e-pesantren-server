@@ -25,6 +25,18 @@ exports.getClientById = (clientId) => {
   });
 };
 
+exports.getClientByApp = (clientApp) => {
+  return new Promise((resolve, reject) => {
+    DB.query('SELECT * FROM client WHERE app = ?', [clientApp], (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results[0]);
+      }
+    });
+  });
+};
+
 exports.createClient = (clientData) => {
   return new Promise((resolve, reject) => {
     DB.query('INSERT INTO client SET ?', [clientData], (error, results) => {
@@ -61,5 +73,3 @@ exports.deleteClient = (clientId) => {
     });
   });
 };
-
-

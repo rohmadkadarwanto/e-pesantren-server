@@ -24,7 +24,28 @@ exports.getUsersById = (usersId) => {
     });
   });
 };
-
+exports.getUserByUsername = (username) => {
+  return new Promise((resolve, reject) => {
+    DB.query('SELECT * FROM users WHERE username = ?', [username], (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results[0]);
+      }
+    });
+  });
+};
+exports.updateUserPassword = (userId, newPassword) => {
+  return new Promise((resolve, reject) => {
+    DB.query('UPDATE users SET password = ? WHERE id = ?', [newPassword, userId], (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
 exports.createUsers = (usersData) => {
   return new Promise((resolve, reject) => {
     DB.query('INSERT INTO users SET ?', [usersData], (error, results) => {
@@ -37,7 +58,6 @@ exports.createUsers = (usersData) => {
     });
   });
 };
-
 exports.updateUsers = (usersId, updatedUsersData) => {
   return new Promise((resolve, reject) => {
     DB.query('UPDATE users SET ? WHERE id = ?', [updatedUsersData, usersId], (error, results) => {
@@ -49,7 +69,6 @@ exports.updateUsers = (usersId, updatedUsersData) => {
     });
   });
 };
-
 exports.deleteUsers = (usersId) => {
   return new Promise((resolve, reject) => {
     DB.query('DELETE FROM users WHERE id = ?', [usersId], (error) => {
@@ -61,5 +80,3 @@ exports.deleteUsers = (usersId) => {
     });
   });
 };
-
-
