@@ -34,7 +34,7 @@ Sistem Management Pondok Pesantren
 
 ## Update
 
-  Update selanjutnya
+- **Update selanjutnya:**
   - Validasi nis -> uniq
   - Validasi nip -> uniq
   - Validasi email -> uniq
