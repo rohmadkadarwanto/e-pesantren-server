@@ -28,6 +28,11 @@ exports.getApplicationByPackage = (applicationPackage) => {
   return executeQuery(sql, [applicationPackage]);
 };
 
+exports.getApplicationByKey = (applicationKey) => {
+  const sql = 'SELECT * FROM application WHERE key = ?';
+  return executeQuery(sql, [applicationKey]);
+};
+
 exports.createApplication = (applicationData) => {
   const sql = 'INSERT INTO application SET ?';
   return executeQuery(sql, [applicationData])

@@ -33,7 +33,7 @@ exports.createAyahSantri = async (req, res) => {
 
 exports.updateAyahSantri = async (req, res) => {
   const AyahSantriId = req.params.id;
-  const { nis, nama, pekerjaan, alamat, updated_at } = req.body;
+  const { nis, nama, pekerjaan, alamat } = req.body;
   try {
     const updatedAyahSantri = await AyahSantriModel.updateAyahSantri(AyahSantriId, { nis, nama, pekerjaan, alamat, updated_at: new Date() });
     Response.success(res, updatedAyahSantri);

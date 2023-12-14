@@ -24,7 +24,7 @@ exports.getIbuSantriById = async (req, res) => {
 exports.createIbuSantri = async (req, res) => {
   const { nis, nama, pekerjaan, alamat } = req.body;
   try {
-    const newIbuSantri = await IbuSantriModel.createIbuSantri(IbuSantriData);
+    const newIbuSantri = await IbuSantriModel.createIbuSantri({ nis, nama, pekerjaan, alamat });
     Response.success(res, newIbuSantri, 201);
   } catch (error) {
     Response.error(res, error.message);

@@ -22,7 +22,8 @@ exports.getSettingKelasById = async (req, res) => {
 };
 
 exports.createSettingKelas = async (req, res) => {
-  const { app, kelas, lembaga, status } = req.body;
+  const { kelas, lembaga, status } = req.body;
+  const app = 'dpi.pesantren.app';
   try {
     const newSettingKelas = await SettingKelasModel.createSettingKelas({ app, kelas, lembaga, status });
     Response.success(res, newSettingKelas, 201);
@@ -33,7 +34,8 @@ exports.createSettingKelas = async (req, res) => {
 
 exports.updateSettingKelas = async (req, res) => {
   const SettingKelasId = req.params.id;
-  const { app, kelas, lembaga, status } = req.body;
+  const { kelas, lembaga, status } = req.body;
+  const app = 'dpi.pesantren.app';
   try {
     const updatedSettingKelas = await SettingKelasModel.updateSettingKelas(SettingKelasId, { app, kelas, lembaga, status, updated_at: new Date() });
     Response.success(res, updatedSettingKelas);

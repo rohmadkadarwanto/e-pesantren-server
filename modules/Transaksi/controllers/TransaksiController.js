@@ -22,7 +22,8 @@ exports.getTransaksiById = async (req, res) => {
 };
 
 exports.createTransaksi = async (req, res) => {
-  const { app, code, user, keterangan, status } = req.body;
+  const { code, user, keterangan, status } = req.body;
+  const app = 'dpi.pesantren.app';
   try {
     const newTransaksi = await TransaksiModel.createTransaksi({ app, code, user, keterangan, status } );
     Response.success(res, newTransaksi, 201);
@@ -33,7 +34,8 @@ exports.createTransaksi = async (req, res) => {
 
 exports.updateTransaksi = async (req, res) => {
   const TransaksiId = req.params.id;
-  const { app, code, user, keterangan, status }  = req.body;
+  const { code, user, keterangan, status }  = req.body;
+  const app = 'dpi.pesantren.app';
   try {
     const updatedTransaksi = await TransaksiModel.updateTransaksi(TransaksiId, { app, code, user, keterangan, status, updated_at: new Date() } );
     Response.success(res, updatedTransaksi);

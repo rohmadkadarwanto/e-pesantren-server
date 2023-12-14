@@ -22,7 +22,9 @@ exports.getLembagaById = async (req, res) => {
 };
 
 exports.createLembaga = async (req, res) => {
-  const { app, code, name } = req.body;
+  const { code, name } = req.body;
+  const app = 'dpi.pesantren.app';
+
   try {
     const newLembaga = await LembagaModel.createLembaga({ app, code, name });
     Response.success(res, newLembaga, 201);
@@ -33,7 +35,9 @@ exports.createLembaga = async (req, res) => {
 
 exports.updateLembaga = async (req, res) => {
   const LembagaId = req.params.id;
-  const { app, code, name } = req.body;
+  const { code, name } = req.body;
+  const app = 'dpi.pesantren.app';
+
   try {
     const updatedLembaga = await LembagaModel.updateLembaga(LembagaId, { app, code, name, update_at: new Date() });
     Response.success(res, updatedLembaga);

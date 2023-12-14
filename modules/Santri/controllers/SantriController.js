@@ -32,7 +32,8 @@ exports.getSantriByNis = async (req, res) => {
 };
 
 exports.createSantri = async (req, res) => {
-  const { nis, app, name, tmp_lahir, tgl_lahir, address, status } = req.body;
+  const { nis,  name, tmp_lahir, tgl_lahir, address, status } = req.body;
+  const app = 'dpi.pesantren.app';
   try {
     const newSantri = await SantriModel.createSantri({ nis, app, name, tmp_lahir, tgl_lahir, address, status });
     Response.success(res, newSantri, 201);
@@ -43,7 +44,8 @@ exports.createSantri = async (req, res) => {
 
 exports.updateSantri = async (req, res) => {
   const SantriId = req.params.id;
-  const { nis, app, name, tmp_lahir, tgl_lahir, address, status } = req.body;
+  const { nis, name, tmp_lahir, tgl_lahir, address, status } = req.body;
+  const app = 'dpi.pesantren.app';
   try {
     const updatedSantri = await SantriModel.updateSantri(SantriId, { nis, app, name, tmp_lahir, tgl_lahir, address, status, updated_at: new Date() });
     Response.success(res, updatedSantri);

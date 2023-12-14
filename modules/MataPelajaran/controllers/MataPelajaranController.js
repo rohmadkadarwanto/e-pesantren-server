@@ -22,9 +22,10 @@ exports.getMataPelajaranById = async (req, res) => {
 };
 
 exports.createMataPelajaran = async (req, res) => {
-  const { code, app, kelas, name, status } = req.body;
+  const { code, kelas, name, status } = req.body;
+  const app = 'dpi.pesantren.app';
   try {
-    const newMataPelajaran = await MataPelajaranModel.createMataPelajaran({ code, app, kelas, name, status });
+    const newMataPelajaran = await MataPelajaranModel.createMataPelajaran({ app, code, kelas, name, status });
     Response.success(res, newMataPelajaran, 201);
   } catch (error) {
     Response.error(res, error.message);
@@ -33,7 +34,8 @@ exports.createMataPelajaran = async (req, res) => {
 
 exports.updateMataPelajaran = async (req, res) => {
   const MataPelajaranId = req.params.id;
-  const { code, app, kelas, name, status } = req.body;
+  const { code, kelas, name, status } = req.body;
+
   try {
     const updatedMataPelajaran = await MataPelajaranModel.updateMataPelajaran(MataPelajaranId, { code, app, kelas, name, status, updated_at: new Date() });
     Response.success(res, updatedMataPelajaran);

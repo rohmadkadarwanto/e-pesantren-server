@@ -1,6 +1,8 @@
 // modules/Kelas/controllers/KelasController.js
 const KelasModel = require('../models/KelasModel');
 const Response = require('../../../utils/response');
+const ApplicationModel = require('../models/ApplicationModel');
+const appConfig = require('../../../config/appConfig');
 
 exports.getAllKelas = async (req, res) => {
   try {
@@ -22,18 +24,23 @@ exports.getKelasById = async (req, res) => {
 };
 
 exports.createKelas = async (req, res) => {
-  const { app, name } = req.body;
   try {
-    const newKelas = await KelasModel.createKelas({ app, name });
-    Response.success(res, newKelas, 201);
+    const { name, status } = req.body;
+    const apiKey = req.headers[appConfig.app.apiKeyHeader] || appConfig.app.defaultApiKey;
+    const app = 'dpi.pesantren.app';
+    const newKelas = await KelasModel.createKelas({ app, name, status });
+
+    return Response.success(res, newKelas, 201);
   } catch (error) {
-    Response.error(res, error.message);
+    console.error(error);
+    return Response.error(res, 'Internal server error', 500);
   }
 };
 
 exports.updateKelas = async (req, res) => {
   const KelasId = req.params.id;
-  const { app, name } = req.body;
+  const { name } = req.body;
+  const app = 'dpi.pesantren.app';
   try {
     const updatedKelas = await KelasModel.updateKelas(KelasId, { app, name, updated_at: new Date() });
     Response.success(res, updatedKelas);

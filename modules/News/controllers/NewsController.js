@@ -22,7 +22,8 @@ exports.getNewsById = async (req, res) => {
 };
 
 exports.createNews = async (req, res) => {
-  const { app, title, text, images, type, status } = req.body;
+  const { title, text, images, type, status } = req.body;
+  const app = 'dpi.pesantren.app';
   try {
     const newNews = await NewsModel.createNews({ app, title, text, images, type, status });
     Response.success(res, newNews, 201);
@@ -33,7 +34,8 @@ exports.createNews = async (req, res) => {
 
 exports.updateNews = async (req, res) => {
   const NewsId = req.params.id;
-  const { app, title, text, images, type, status } = req.body;
+  const { title, text, images, type, status } = req.body;
+  const app = 'dpi.pesantren.app';
   try {
     const updatedNews = await NewsModel.updateNews(NewsId, { app, title, text, images, type, status, updated_at: new Date() });
     Response.success(res, updatedNews);
