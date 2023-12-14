@@ -39,7 +39,7 @@ exports.updateKelas = async (req, res) => {
   const { name } = req.body;
   const app = 'dpi.pesantren.app';
   try {
-    const updatedKelas = await KelasModel.updateKelas(KelasId, { app, name, updated_at: new Date() });
+    const updatedKelas = await KelasModel.updateKelas(KelasId, { app, name,status, updated_at: new Date() });
     Response.success(res, updatedKelas);
   } catch (error) {
     Response.error(res, error.message);
