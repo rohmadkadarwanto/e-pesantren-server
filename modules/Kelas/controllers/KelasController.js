@@ -1,8 +1,6 @@
 // modules/Kelas/controllers/KelasController.js
 const KelasModel = require('../models/KelasModel');
 const Response = require('../../../utils/response');
-const ApplicationModel = require('../../Application/models/ApplicationModel');
-const appConfig = require('../../../config/appConfig');
 
 exports.getAllKelas = async (req, res) => {
   try {
@@ -26,7 +24,6 @@ exports.getKelasById = async (req, res) => {
 exports.createKelas = async (req, res) => {
   try {
     const { name, status } = req.body;
-    const apiKey = req.headers[appConfig.app.apiKeyHeader] || appConfig.app.defaultApiKey;
     const app = 'dpi.pesantren.app';
     const newKelas = await KelasModel.createKelas({ app, name, status });
 
