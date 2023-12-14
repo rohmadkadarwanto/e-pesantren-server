@@ -1,7 +1,7 @@
 // modules/Kelas/controllers/KelasController.js
 const KelasModel = require('../models/KelasModel');
 const Response = require('../../../utils/response');
-const ApplicationModel = require('../models/ApplicationModel');
+const ApplicationModel = require('../../Application/models/ApplicationModel');
 const appConfig = require('../../../config/appConfig');
 
 exports.getAllKelas = async (req, res) => {
