@@ -370,9 +370,6 @@
                 },
                 "alamat": {
                   "example": "any"
-                },
-                "updated_at": {
-                  "example": "any"
                 }
               }
             }
@@ -897,10 +894,10 @@
             "schema": {
               "type": "object",
               "properties": {
-                "app": {
+                "name": {
                   "example": "any"
                 },
-                "name": {
+                "status": {
                   "example": "any"
                 }
               }
@@ -946,9 +943,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "app": {
-                  "example": "any"
-                },
                 "name": {
                   "example": "any"
                 }
@@ -997,9 +991,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "app": {
-                  "example": "any"
-                },
                 "code": {
                   "example": "any"
                 },
@@ -1049,9 +1040,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "app": {
-                  "example": "any"
-                },
                 "code": {
                   "example": "any"
                 },
@@ -1104,9 +1092,6 @@
               "type": "object",
               "properties": {
                 "code": {
-                  "example": "any"
-                },
-                "app": {
                   "example": "any"
                 },
                 "kelas": {
@@ -1164,9 +1149,6 @@
                 "code": {
                   "example": "any"
                 },
-                "app": {
-                  "example": "any"
-                },
                 "kelas": {
                   "example": "any"
                 },
@@ -1221,9 +1203,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "app": {
-                  "example": "any"
-                },
                 "title": {
                   "example": "any"
                 },
@@ -1282,9 +1261,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "app": {
-                  "example": "any"
-                },
                 "title": {
                   "example": "any"
                 },
@@ -1454,9 +1430,6 @@
                 "nis": {
                   "example": "any"
                 },
-                "app": {
-                  "example": "any"
-                },
                 "name": {
                   "example": "any"
                 },
@@ -1516,9 +1489,6 @@
               "type": "object",
               "properties": {
                 "nis": {
-                  "example": "any"
-                },
-                "app": {
                   "example": "any"
                 },
                 "name": {
@@ -1599,9 +1569,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "app": {
-                  "example": "any"
-                },
                 "kelas": {
                   "example": "any"
                 },
@@ -1654,9 +1621,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "app": {
-                  "example": "any"
-                },
                 "kelas": {
                   "example": "any"
                 },
@@ -1711,9 +1675,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "app": {
-                  "example": "any"
-                },
                 "kelas": {
                   "example": "any"
                 },
@@ -1772,9 +1733,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "app": {
-                  "example": "any"
-                },
                 "kelas": {
                   "example": "any"
                 },
@@ -1835,9 +1793,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "app": {
-                  "example": "any"
-                },
                 "code": {
                   "example": "any"
                 },
@@ -1893,9 +1848,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "app": {
-                  "example": "any"
-                },
                 "code": {
                   "example": "any"
                 },
