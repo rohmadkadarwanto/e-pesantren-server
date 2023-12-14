@@ -36,6 +36,7 @@ exports.updateMataPelajaran = async (req, res) => {
   const MataPelajaranId = req.params.id;
   const { code, kelas, name, status } = req.body;
 
+  const app = 'dpi.pesantren.app';
   try {
     const updatedMataPelajaran = await MataPelajaranModel.updateMataPelajaran(MataPelajaranId, { code, app, kelas, name, status, updated_at: new Date() });
     Response.success(res, updatedMataPelajaran);
