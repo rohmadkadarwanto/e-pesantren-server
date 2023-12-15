@@ -14,7 +14,21 @@ const dbConfig = {
 
 const pool = mysql.createPool(dbConfig);
 
+const executeQuery = async (sql, values) => {
+  const connection = await pool.getConnection();
+  try {
+    const [rows] = await connection.execute(sql, values);
+    return rows || [];
+  } catch (error) {
+    throw error;
+  } finally {
+    connection.release();
+  }
+};
+
+
 module.exports = {
+  executeQuery,
   dbConfig,
   pool,
 };
