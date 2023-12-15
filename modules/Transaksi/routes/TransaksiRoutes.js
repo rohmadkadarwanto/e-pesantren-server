@@ -12,5 +12,5 @@ Router.get('/transaksi/:id', Transaksi.getTransaksiById);
 Router.post('/transaksi', Transaksi.createTransaksi);
 Router.put('/transaksi/:id', Transaksi.updateTransaksi);
 Router.delete('/transaksi/:id', Transaksi.deleteTransaksi);
-
+Router.get('/laporan', Transaksi.getAllTransaksi);
 module.exports = Router;

@@ -6,7 +6,31 @@ const appConfig = require('../../../config/appConfig');
 
 exports.getAllTransaksi = async (req, res) => {
   try {
-    const Transaksi = await TransaksiModel.getAllTransaksi();
+    const results = await TransaksiModel.getAllTransaksi();
+
+    const Transaksi = results.map(result => ({
+      transaksi_detail: {
+        id: result.transaksi_detail_id,
+        transaksi: result.transaksi,
+        account: {
+          id: result.coa_account_id,
+          code: result.coa_account_code,
+          name: result.coa_account_name,
+          type: result.coa_account_type,
+          normal_balance: result.coa_account_normal_balance,
+        },
+        sub_account: {
+          id: result.coa_subaccount_id,
+          account_code: result.coa_subaccount_account_code,
+          code: result.coa_subaccount_code,
+          name: result.coa_subaccount_name,
+        },
+        amount: result.amount,
+        type: result.type,
+        created_at: result.transaksi_detail_created_at,
+      },
+    }));
+
     Response.success(res, Transaksi);
   } catch (error) {
     Response.error(res, error.message);
@@ -16,7 +40,31 @@ exports.getAllTransaksi = async (req, res) => {
 exports.getTransaksiById = async (req, res) => {
   const TransaksiId = req.params.id;
   try {
-    const Transaksi = await TransaksiModel.getTransaksiById(TransaksiId);
+    const results = await TransaksiModel.getTransaksiById(TransaksiId);
+
+    const Transaksi = results.map(result => ({
+      transaksi_detail: {
+        id: result.transaksi_detail_id,
+        transaksi: result.transaksi,
+        account: {
+          id: result.coa_account_id,
+          code: result.coa_account_code,
+          name: result.coa_account_name,
+          type: result.coa_account_type,
+          normal_balance: result.coa_account_normal_balance,
+        },
+        sub_account: {
+          id: result.coa_subaccount_id,
+          account_code: result.coa_subaccount_account_code,
+          code: result.coa_subaccount_code,
+          name: result.coa_subaccount_name,
+        },
+        amount: result.amount,
+        type: result.type,
+        created_at: result.transaksi_detail_created_at,
+      },
+    }));
+
     Response.success(res, Transaksi);
   } catch (error) {
     Response.error(res, error.message);
@@ -24,15 +72,15 @@ exports.getTransaksiById = async (req, res) => {
 };
 
 exports.createTransaksi = async (req, res) => {
-  //const { user, account, sub_account, amount, type, keterangan, status } = req.body;
-  const { user, keterangan, status } = req.body;
+  const { user, account, sub_account, amount, type, keterangan, status } = req.body;
+  //const { user, keterangan, status } = req.body;
   const apiKey = req.headers[appConfig.app.apiKeyHeader] || appConfig.app.defaultApiKey;
   const code = 'INV' + Math.random().toString(36).substring(2, 8).toUpperCase();
   try {
     // Ambil data aplikasi berdasarkan API key
     const app = await appUtils.getAppFromHeaderKey(apiKey) || 'dpi.pesantren.app';
 
-    const newTransaksi = await TransaksiModel.createTransaksi({ app, code, user, keterangan, status } );
+    const newTransaksi = await TransaksiModel.createTransaksi({ app, code, user, account, sub_account, amount, type, keterangan, status } );
     Response.success(res, newTransaksi, 201);
   } catch (error) {
     Response.error(res, error.message);
@@ -41,10 +89,9 @@ exports.createTransaksi = async (req, res) => {
 
 exports.updateTransaksi = async (req, res) => {
   const TransaksiId = req.params.id;
-  //const { user, account, sub_account, amount, type, keterangan, status }  = req.body;
-  const { user, keterangan, status }  = req.body;
+  const { user, account, sub_account, amount, type, keterangan, status }  = req.body;
   try {
-    const updatedTransaksi = await TransaksiModel.updateTransaksi(TransaksiId, { user, keterangan, status, updated_at: new Date() } );
+    const updatedTransaksi = await TransaksiModel.updateTransaksi(TransaksiId, { user, account, sub_account, amount, type, keterangan, status, updated_at: new Date() } );
     Response.success(res, updatedTransaksi);
   } catch (error) {
     Response.error(res, error.message);
@@ -54,8 +101,8 @@ exports.updateTransaksi = async (req, res) => {
 exports.deleteTransaksi = async (req, res) => {
   const TransaksiId = req.params.id;
   try {
-    await TransaksiModel.deleteTransaksi(TransaksiId);
-    Response.success(res, null, 204);
+    const deleteTransaksi = await TransaksiModel.deleteTransaksi(TransaksiId);
+    Response.success(res, deleteTransaksi);
   } catch (error) {
     Response.error(res, error.message);
   }
