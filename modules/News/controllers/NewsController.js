@@ -1,6 +1,8 @@
 // modules/News/controllers/NewsController.js
 const NewsModel = require('../models/NewsModel');
 const Response = require('../../../utils/response');
+const appUtils = require('../../../utils/appUtils');
+const appConfig = require('../../../config/appConfig');
 
 exports.getAllNews = async (req, res) => {
   try {
@@ -23,8 +25,11 @@ exports.getNewsById = async (req, res) => {
 
 exports.createNews = async (req, res) => {
   const { title, text, images, type, status } = req.body;
-  const app = 'dpi.pesantren.app';
+  const apiKey = req.headers[appConfig.app.apiKeyHeader] || appConfig.app.defaultApiKey;
   try {
+    // Ambil data aplikasi berdasarkan API key
+    const app = await appUtils.getAppFromHeaderKey(apiKey) || 'dpi.pesantren.app';
+
     const newNews = await NewsModel.createNews({ app, title, text, images, type, status });
     Response.success(res, newNews, 201);
   } catch (error) {
@@ -35,9 +40,8 @@ exports.createNews = async (req, res) => {
 exports.updateNews = async (req, res) => {
   const NewsId = req.params.id;
   const { title, text, images, type, status } = req.body;
-  const app = 'dpi.pesantren.app';
   try {
-    const updatedNews = await NewsModel.updateNews(NewsId, { app, title, text, images, type, status, updated_at: new Date() });
+    const updatedNews = await NewsModel.updateNews(NewsId, { title, text, images, type, status, updated_at: new Date() });
     Response.success(res, updatedNews);
   } catch (error) {
     Response.error(res, error.message);

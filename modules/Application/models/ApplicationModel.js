@@ -33,6 +33,23 @@ exports.getApplicationByKey = (applicationKey) => {
   return executeQuery(sql, [applicationKey]);
 };
 
+
+exports.getAppByApiKey = (apiKey) => {
+  return new Promise((resolve, reject) => {
+    db.execute('SELECT app FROM application WHERE `key` = ?', [apiKey])
+      .then(([rows]) => {
+        if (rows.length > 0) {
+          resolve(rows[0].app);
+        } else {
+          reject(new Error('Invalid API key'));
+        }
+      })
+      .catch(reject);
+  });
+};
+
+
+
 exports.createApplication = (applicationData) => {
   const sql = 'INSERT INTO application SET ?';
   return executeQuery(sql, [applicationData])

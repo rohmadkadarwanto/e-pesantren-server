@@ -1,6 +1,8 @@
 // modules/Lembaga/controllers/LembagaController.js
 const LembagaModel = require('../models/LembagaModel');
 const Response = require('../../../utils/response');
+const appUtils = require('../../../utils/appUtils');
+const appConfig = require('../../../config/appConfig');
 
 exports.getAllLembaga = async (req, res) => {
   try {
@@ -22,10 +24,14 @@ exports.getLembagaById = async (req, res) => {
 };
 
 exports.createLembaga = async (req, res) => {
-  const { code, name } = req.body;
-  const app = 'dpi.pesantren.app';
+  const { name } = req.body;
+  const apiKey = req.headers[appConfig.app.apiKeyHeader] || appConfig.app.defaultApiKey;
+  const code = 'LB' + Math.random().toString(36).substring(2, 8).toUpperCase();
 
   try {
+    // Ambil data aplikasi berdasarkan API key
+    const app = await appUtils.getAppFromHeaderKey(apiKey) || 'dpi.pesantren.app';
+
     const newLembaga = await LembagaModel.createLembaga({ app, code, name });
     Response.success(res, newLembaga, 201);
   } catch (error) {
@@ -35,11 +41,9 @@ exports.createLembaga = async (req, res) => {
 
 exports.updateLembaga = async (req, res) => {
   const LembagaId = req.params.id;
-  const { code, name } = req.body;
-  const app = 'dpi.pesantren.app';
-
+  const { name } = req.body;
   try {
-    const updatedLembaga = await LembagaModel.updateLembaga(LembagaId, { app, code, name, update_at: new Date() });
+    const updatedLembaga = await LembagaModel.updateLembaga(LembagaId, { name, update_at: new Date() });
     Response.success(res, updatedLembaga);
   } catch (error) {
     Response.error(res, error.message);

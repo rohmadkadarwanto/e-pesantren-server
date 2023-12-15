@@ -1,6 +1,8 @@
 // modules/Kelas/controllers/KelasController.js
 const KelasModel = require('../models/KelasModel');
 const Response = require('../../../utils/response');
+const appUtils = require('../../../utils/appUtils');
+const appConfig = require('../../../config/appConfig');
 
 exports.getAllKelas = async (req, res) => {
   try {
@@ -22,9 +24,12 @@ exports.getKelasById = async (req, res) => {
 };
 
 exports.createKelas = async (req, res) => {
+  const apiKey = req.headers[appConfig.app.apiKeyHeader] || appConfig.app.defaultApiKey;
+  const { name, status } = req.body;
+
   try {
-    const { name, status } = req.body;
-    const app = 'dpi.pesantren.app';
+    // Ambil data aplikasi berdasarkan API key
+    const app = await appUtils.getAppFromHeaderKey(apiKey) || 'dpi.pesantren.app';
     const newKelas = await KelasModel.createKelas({ app, name, status });
 
     return Response.success(res, newKelas, 201);
@@ -36,10 +41,9 @@ exports.createKelas = async (req, res) => {
 
 exports.updateKelas = async (req, res) => {
   const KelasId = req.params.id;
-  const { name } = req.body;
-  const app = 'dpi.pesantren.app';
+  const { name, status } = req.body;
   try {
-    const updatedKelas = await KelasModel.updateKelas(KelasId, { app, name,status, updated_at: new Date() });
+    const updatedKelas = await KelasModel.updateKelas(KelasId, { name, status, updated_at: new Date() });
     Response.success(res, updatedKelas);
   } catch (error) {
     Response.error(res, error.message);

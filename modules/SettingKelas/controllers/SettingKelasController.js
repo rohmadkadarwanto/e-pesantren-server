@@ -1,6 +1,8 @@
 // modules/SettingKelas/controllers/SettingKelasController.js
 const SettingKelasModel = require('../models/SettingKelasModel');
 const Response = require('../../../utils/response');
+const appUtils = require('../../../utils/appUtils');
+const appConfig = require('../../../config/appConfig');
 
 exports.getAllSettingKelas = async (req, res) => {
   try {
@@ -23,8 +25,11 @@ exports.getSettingKelasById = async (req, res) => {
 
 exports.createSettingKelas = async (req, res) => {
   const { kelas, lembaga, status } = req.body;
-  const app = 'dpi.pesantren.app';
+  const apiKey = req.headers[appConfig.app.apiKeyHeader] || appConfig.app.defaultApiKey;
   try {
+    // Ambil data aplikasi berdasarkan API key
+    const app = await appUtils.getAppFromHeaderKey(apiKey) || 'dpi.pesantren.app';
+
     const newSettingKelas = await SettingKelasModel.createSettingKelas({ app, kelas, lembaga, status });
     Response.success(res, newSettingKelas, 201);
   } catch (error) {
@@ -35,9 +40,8 @@ exports.createSettingKelas = async (req, res) => {
 exports.updateSettingKelas = async (req, res) => {
   const SettingKelasId = req.params.id;
   const { kelas, lembaga, status } = req.body;
-  const app = 'dpi.pesantren.app';
   try {
-    const updatedSettingKelas = await SettingKelasModel.updateSettingKelas(SettingKelasId, { app, kelas, lembaga, status, updated_at: new Date() });
+    const updatedSettingKelas = await SettingKelasModel.updateSettingKelas(SettingKelasId, { kelas, lembaga, status, updated_at: new Date() });
     Response.success(res, updatedSettingKelas);
   } catch (error) {
     Response.error(res, error.message);

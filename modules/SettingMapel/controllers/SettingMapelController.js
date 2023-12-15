@@ -1,6 +1,8 @@
 // modules/SettingMapel/controllers/SettingMapelController.js
 const SettingMapelModel = require('../models/SettingMapelModel');
 const Response = require('../../../utils/response');
+const appUtils = require('../../../utils/appUtils');
+const appConfig = require('../../../config/appConfig');
 
 exports.getAllSettingMapel = async (req, res) => {
   try {
@@ -23,8 +25,11 @@ exports.getSettingMapelById = async (req, res) => {
 
 exports.createSettingMapel = async (req, res) => {
   const { kelas, lembaga, mapel, asatid, status } = req.body;
-  const app = 'dpi.pesantren.app';
+  const apiKey = req.headers[appConfig.app.apiKeyHeader] || appConfig.app.defaultApiKey;
   try {
+    // Ambil data aplikasi berdasarkan API key
+    const app = await appUtils.getAppFromHeaderKey(apiKey) || 'dpi.pesantren.app';
+
     const newSettingMapel = await SettingMapelModel.createSettingMapel({ app, kelas, lembaga, mapel, asatid, status });
     Response.success(res, newSettingMapel, 201);
   } catch (error) {
@@ -35,9 +40,8 @@ exports.createSettingMapel = async (req, res) => {
 exports.updateSettingMapel = async (req, res) => {
   const SettingMapelId = req.params.id;
   const { kelas, lembaga, mapel, asatid, status } = req.body;
-  const app = 'dpi.pesantren.app';
   try {
-    const updatedSettingMapel = await SettingMapelModel.updateSettingMapel(SettingMapelId, { app, kelas, lembaga, mapel, asatid, status, updated_at: new Date() });
+    const updatedSettingMapel = await SettingMapelModel.updateSettingMapel(SettingMapelId, { kelas, lembaga, mapel, asatid, status, updated_at: new Date() });
     Response.success(res, updatedSettingMapel);
   } catch (error) {
     Response.error(res, error.message);

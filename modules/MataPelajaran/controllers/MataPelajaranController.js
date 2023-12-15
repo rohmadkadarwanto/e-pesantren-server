@@ -1,6 +1,8 @@
 // modules/MataPelajaran/controllers/MataPelajaranController.js
 const MataPelajaranModel = require('../models/MataPelajaranModel');
 const Response = require('../../../utils/response');
+const appUtils = require('../../../utils/appUtils');
+const appConfig = require('../../../config/appConfig');
 
 exports.getAllMataPelajaran = async (req, res) => {
   try {
@@ -22,10 +24,14 @@ exports.getMataPelajaranById = async (req, res) => {
 };
 
 exports.createMataPelajaran = async (req, res) => {
-  const { code, kelas, name, status } = req.body;
-  const app = 'dpi.pesantren.app';
+  const { name, status } = req.body;
+  const apiKey = req.headers[appConfig.app.apiKeyHeader] || appConfig.app.defaultApiKey;
+  const code = 'MP' + Math.random().toString(36).substring(2, 8).toUpperCase();
   try {
-    const newMataPelajaran = await MataPelajaranModel.createMataPelajaran({ app, code, kelas, name, status });
+    // Ambil data aplikasi berdasarkan API key
+    const app = await appUtils.getAppFromHeaderKey(apiKey) || 'dpi.pesantren.app';
+
+    const newMataPelajaran = await MataPelajaranModel.createMataPelajaran({ app, code, name, status });
     Response.success(res, newMataPelajaran, 201);
   } catch (error) {
     Response.error(res, error.message);
@@ -34,11 +40,9 @@ exports.createMataPelajaran = async (req, res) => {
 
 exports.updateMataPelajaran = async (req, res) => {
   const MataPelajaranId = req.params.id;
-  const { code, kelas, name, status } = req.body;
-
-  const app = 'dpi.pesantren.app';
+  const { name, status } = req.body;
   try {
-    const updatedMataPelajaran = await MataPelajaranModel.updateMataPelajaran(MataPelajaranId, { code, app, kelas, name, status, updated_at: new Date() });
+    const updatedMataPelajaran = await MataPelajaranModel.updateMataPelajaran(MataPelajaranId, { name, status, updated_at: new Date() });
     Response.success(res, updatedMataPelajaran);
   } catch (error) {
     Response.error(res, error.message);
