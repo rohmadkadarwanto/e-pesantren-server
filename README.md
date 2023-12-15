@@ -38,24 +38,23 @@ Sistem Management Pondok Pesantren
 ## Update
 
 - **Update 15-12-2023:**
-# Ambil package dari tabel application berdasar api key
+   - Ambil package dari tabel application berdasar api key
 
-1.kelas
-2.lembaga
-3.mata_pelajaran
-4.news
-5.santri
-6.setting_kelas
-7.setting_mapel
+      - kelas
+      - lembaga
+      - mata_pelajaran
+      - news
+      - santri
+      - setting_kelas- setting_mapel
 
-# Generate Code
+   - Generate Code
 
-1.lembaga => LB****
-2.mata_pelajaran => MP****
-3.transaksi => INV***
-4.client => CLN***
-5.coa_account => CA***
-6.coa_subaccount => CS***
+      - lembaga => LB****
+      - mata_pelajaran => MP****
+      - transaksi => INV***
+      - client => CLN***
+      - coa_account => CA***
+      - coa_subaccount => CS***
 
 
 - **Update 13-12-2023:**
