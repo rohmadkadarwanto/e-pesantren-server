@@ -945,6 +945,9 @@
               "properties": {
                 "name": {
                   "example": "any"
+                },
+                "status": {
+                  "example": "any"
                 }
               }
             }
@@ -991,9 +994,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "code": {
-                  "example": "any"
-                },
                 "name": {
                   "example": "any"
                 }
@@ -1040,9 +1040,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "code": {
-                  "example": "any"
-                },
                 "name": {
                   "example": "any"
                 }
@@ -1091,12 +1088,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "code": {
-                  "example": "any"
-                },
-                "kelas": {
-                  "example": "any"
-                },
                 "name": {
                   "example": "any"
                 },
@@ -1146,12 +1137,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "code": {
-                  "example": "any"
-                },
-                "kelas": {
-                  "example": "any"
-                },
                 "name": {
                   "example": "any"
                 },
@@ -1793,9 +1778,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "code": {
-                  "example": "any"
-                },
                 "user": {
                   "example": "any"
                 },
@@ -1848,9 +1830,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "code": {
-                  "example": "any"
-                },
                 "user": {
                   "example": "any"
                 },
