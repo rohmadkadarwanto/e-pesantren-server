@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.0.8",
+    "version": "1.0.10",
     "title": "REST API Aplikasi Pesntren",
     "description": "Dokumentasi REST API Aplikasi Pesntren"
   },
