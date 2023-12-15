@@ -45,7 +45,8 @@ Sistem Management Pondok Pesantren
       - mata_pelajaran
       - news
       - santri
-      - setting_kelas- setting_mapel
+      - setting_kelas
+      - setting_mapel
 
    - Generate Code
 
