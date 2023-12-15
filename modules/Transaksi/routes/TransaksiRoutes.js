@@ -7,10 +7,9 @@ const apiKeyMiddleware = require('../../../utils/apiKey').apiKeyMiddleware;
 // Middleware untuk memeriksa API key
 Router.use(apiKeyMiddleware);
 
-Router.get('/transaksi', Transaksi.getAllTransaksi);
+Router.get('/transaksi/laporan', Transaksi.getAllTransaksi);
 Router.get('/transaksi/:id', Transaksi.getTransaksiById);
-Router.post('/transaksi', Transaksi.createTransaksi);
-Router.put('/transaksi/:id', Transaksi.updateTransaksi);
-Router.delete('/transaksi/:id', Transaksi.deleteTransaksi);
-Router.get('/laporan', Transaksi.getAllTransaksi);
+Router.post('/transaksi/create', Transaksi.createTransaksi);
+Router.put('/transaksi/update/:id', Transaksi.updateTransaksi);
+Router.delete('/transaksi/delete/:id', Transaksi.deleteTransaksi);
 module.exports = Router;
