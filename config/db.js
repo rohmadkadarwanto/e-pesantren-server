@@ -17,7 +17,7 @@ const pool = mysql.createPool(dbConfig);
 const executeQuery = async (sql, values) => {
   const connection = await pool.getConnection();
   try {
-    const [rows] = await connection.execute(sql, values);
+    const [rows] = await connection.query(sql, values);
     return rows || [];
   } catch (error) {
     throw error;
