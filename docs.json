@@ -5,7 +5,7 @@
     "title": "REST API Aplikasi Pesntren",
     "description": "Dokumentasi REST API Aplikasi Pesntren"
   },
-  "host": "localhost:3000",
+  "host": "117.53.45.122:3000",
   "basePath": "/",
   "schemes": [
     "http",
