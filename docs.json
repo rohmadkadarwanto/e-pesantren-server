@@ -1,11 +1,11 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.0.12",
+    "version": "1.1.0",
     "title": "REST API Aplikasi Pesntren",
     "description": "Dokumentasi REST API Aplikasi Pesntren"
   },
-  "host": "117.53.45.122:3000",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
     "http",
@@ -34,7 +34,27 @@
             "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/application/{package}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "package",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/application/create": {
       "post": {
         "description": "",
         "parameters": [
@@ -70,28 +90,12 @@
         }
       }
     },
-    "/api/application/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
+    "/api/application/update/{package}": {
       "put": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "package",
             "in": "path",
             "required": true,
             "type": "string"
@@ -126,26 +130,10 @@
             "description": ""
           }
         }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
       }
     },
-    "/api/application/{package}": {
-      "get": {
+    "/api/application/delete/{package}": {
+      "delete": {
         "description": "",
         "parameters": [
           {
@@ -170,7 +158,27 @@
             "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/asatid/{nip}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "nip",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/asatid/create": {
       "post": {
         "description": "",
         "parameters": [
@@ -209,28 +217,12 @@
         }
       }
     },
-    "/api/asatid/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
+    "/api/asatid/update/{nip}": {
       "put": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "nip",
             "in": "path",
             "required": true,
             "type": "string"
@@ -268,124 +260,14 @@
             "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/asatid/delete/{nip}": {
       "delete": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/ayah-santri": {
-      "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nis": {
-                  "example": "any"
-                },
-                "nama": {
-                  "example": "any"
-                },
-                "pekerjaan": {
-                  "example": "any"
-                },
-                "alamat": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/ayah-santri/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nis": {
-                  "example": "any"
-                },
-                "nama": {
-                  "example": "any"
-                },
-                "pekerjaan": {
-                  "example": "any"
-                },
-                "alamat": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
+            "name": "nip",
             "in": "path",
             "required": true,
             "type": "string"
@@ -406,7 +288,27 @@
             "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/client/{package}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "package",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/client/create": {
       "post": {
         "description": "",
         "parameters": [
@@ -448,28 +350,12 @@
         }
       }
     },
-    "/api/client/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
+    "/api/client/update/{package}": {
       "put": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "package",
             "in": "path",
             "required": true,
             "type": "string"
@@ -510,30 +396,14 @@
             "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/client/delete/{package}": {
       "delete": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/client/{app}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "app",
+            "name": "package",
             "in": "path",
             "required": true,
             "type": "string"
@@ -549,37 +419,6 @@
     "/api/coa-account": {
       "get": {
         "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "example": "any"
-                },
-                "name": {
-                  "example": "any"
-                },
-                "type": {
-                  "example": "any"
-                },
-                "normal_balance": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
         "responses": {
           "default": {
             "description": ""
@@ -603,7 +442,42 @@
             "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/coa-account/create": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "example": "any"
+                },
+                "name": {
+                  "example": "any"
+                },
+                "type": {
+                  "example": "any"
+                },
+                "normal_balance": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/coa-account/update/{id}": {
       "put": {
         "description": "",
         "parameters": [
@@ -640,7 +514,9 @@
             "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/coa-account/delete/{id}": {
       "delete": {
         "description": "",
         "parameters": [
@@ -666,34 +542,6 @@
             "description": ""
           }
         }
-      },
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "account_code": {
-                  "example": "any"
-                },
-                "code": {
-                  "example": "any"
-                },
-                "name": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
       }
     },
     "/api/coa-subaccount/{id}": {
@@ -712,7 +560,39 @@
             "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/coa-subaccount/create": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "account_code": {
+                  "example": "any"
+                },
+                "code": {
+                  "example": "any"
+                },
+                "name": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/coa-subaccount/update/{id}": {
       "put": {
         "description": "",
         "parameters": [
@@ -746,119 +626,9 @@
             "description": ""
           }
         }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
       }
     },
-    "/api/ibu-santri": {
-      "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nis": {
-                  "example": "any"
-                },
-                "nama": {
-                  "example": "any"
-                },
-                "pekerjaan": {
-                  "example": "any"
-                },
-                "alamat": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/ibu-santri/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nis": {
-                  "example": "any"
-                },
-                "nama": {
-                  "example": "any"
-                },
-                "pekerjaan": {
-                  "example": "any"
-                },
-                "alamat": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
+    "/api/coa-subaccount/delete/{id}": {
       "delete": {
         "description": "",
         "parameters": [
@@ -884,7 +654,27 @@
             "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/kelas/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/kelas/create": {
       "post": {
         "description": "",
         "parameters": [
@@ -911,23 +701,7 @@
         }
       }
     },
-    "/api/kelas/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
+    "/api/kelas/update/{id}": {
       "put": {
         "description": "",
         "parameters": [
@@ -958,7 +732,9 @@
             "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/kelas/delete/{id}": {
       "delete": {
         "description": "",
         "parameters": [
@@ -984,7 +760,27 @@
             "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/lembaga/{code}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/lembaga/create": {
       "post": {
         "description": "",
         "parameters": [
@@ -1008,28 +804,12 @@
         }
       }
     },
-    "/api/lembaga/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
+    "/api/lembaga/update/{code}": {
       "put": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "code",
             "in": "path",
             "required": true,
             "type": "string"
@@ -1052,12 +832,14 @@
             "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/lembaga/delete/{code}": {
       "delete": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "code",
             "in": "path",
             "required": true,
             "type": "string"
@@ -1078,7 +860,27 @@
             "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/mata-pelajaran/{code}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/mata-pelajaran/create": {
       "post": {
         "description": "",
         "parameters": [
@@ -1105,28 +907,12 @@
         }
       }
     },
-    "/api/mata-pelajaran/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
+    "/api/mata-pelajaran/update/{code}": {
       "put": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "code",
             "in": "path",
             "required": true,
             "type": "string"
@@ -1152,12 +938,14 @@
             "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/mata-pelajaran/delete/{code}": {
       "delete": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "code",
             "in": "path",
             "required": true,
             "type": "string"
@@ -1173,40 +961,6 @@
     "/api/news": {
       "get": {
         "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "example": "any"
-                },
-                "text": {
-                  "example": "any"
-                },
-                "images": {
-                  "example": "any"
-                },
-                "type": {
-                  "example": "any"
-                },
-                "status": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
         "responses": {
           "default": {
             "description": ""
@@ -1230,7 +984,45 @@
             "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/news/create": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "example": "any"
+                },
+                "text": {
+                  "example": "any"
+                },
+                "images": {
+                  "example": "any"
+                },
+                "type": {
+                  "example": "any"
+                },
+                "status": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/news/update/{id}": {
       "put": {
         "description": "",
         "parameters": [
@@ -1270,7 +1062,9 @@
             "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/news/delete/{id}": {
       "delete": {
         "description": "",
         "parameters": [
@@ -1296,7 +1090,27 @@
             "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/sales/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/sales/create/": {
       "post": {
         "description": "",
         "parameters": [
@@ -1326,23 +1140,7 @@
         }
       }
     },
-    "/api/sales/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
+    "/api/sales/update/{id}": {
       "put": {
         "description": "",
         "parameters": [
@@ -1376,7 +1174,9 @@
             "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/sales/delete/{id}": {
       "delete": {
         "description": "",
         "parameters": [
@@ -1402,120 +1202,6 @@
             "description": ""
           }
         }
-      },
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nis": {
-                  "example": "any"
-                },
-                "name": {
-                  "example": "any"
-                },
-                "tmp_lahir": {
-                  "example": "any"
-                },
-                "tgl_lahir": {
-                  "example": "any"
-                },
-                "address": {
-                  "example": "any"
-                },
-                "status": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/santri/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nis": {
-                  "example": "any"
-                },
-                "name": {
-                  "example": "any"
-                },
-                "tmp_lahir": {
-                  "example": "any"
-                },
-                "tgl_lahir": {
-                  "example": "any"
-                },
-                "address": {
-                  "example": "any"
-                },
-                "status": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
       }
     },
     "/api/santri/{nis}": {
@@ -1536,15 +1222,7 @@
         }
       }
     },
-    "/api/setting-kelas": {
-      "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
+    "/api/santri/create": {
       "post": {
         "description": "",
         "parameters": [
@@ -1554,13 +1232,49 @@
             "schema": {
               "type": "object",
               "properties": {
-                "kelas": {
+                "nis": {
                   "example": "any"
                 },
-                "lembaga": {
+                "name": {
+                  "example": "any"
+                },
+                "tmp_lahir": {
+                  "example": "any"
+                },
+                "tgl_lahir": {
+                  "example": "any"
+                },
+                "address": {
                   "example": "any"
                 },
                 "status": {
+                  "example": "any"
+                },
+                "ayah_nama": {
+                  "example": "any"
+                },
+                "ayah_pekerjaan": {
+                  "example": "any"
+                },
+                "ayah_alamat": {
+                  "example": "any"
+                },
+                "ibu_nama": {
+                  "example": "any"
+                },
+                "ibu_pekerjaan": {
+                  "example": "any"
+                },
+                "ibu_alamat": {
+                  "example": "any"
+                },
+                "wali_nama": {
+                  "example": "any"
+                },
+                "wali_pekerjaan": {
+                  "example": "any"
+                },
+                "wali_alamat": {
                   "example": "any"
                 }
               }
@@ -1574,28 +1288,12 @@
         }
       }
     },
-    "/api/setting-kelas/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
+    "/api/santri/update/{nis}": {
       "put": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "nis",
             "in": "path",
             "required": true,
             "type": "string"
@@ -1606,13 +1304,49 @@
             "schema": {
               "type": "object",
               "properties": {
-                "kelas": {
+                "nis": {
                   "example": "any"
                 },
-                "lembaga": {
+                "name": {
+                  "example": "any"
+                },
+                "tmp_lahir": {
+                  "example": "any"
+                },
+                "tgl_lahir": {
+                  "example": "any"
+                },
+                "address": {
                   "example": "any"
                 },
                 "status": {
+                  "example": "any"
+                },
+                "ayah_nama": {
+                  "example": "any"
+                },
+                "ayah_pekerjaan": {
+                  "example": "any"
+                },
+                "ayah_alamat": {
+                  "example": "any"
+                },
+                "ibu_nama": {
+                  "example": "any"
+                },
+                "ibu_pekerjaan": {
+                  "example": "any"
+                },
+                "ibu_alamat": {
+                  "example": "any"
+                },
+                "wali_nama": {
+                  "example": "any"
+                },
+                "wali_pekerjaan": {
+                  "example": "any"
+                },
+                "wali_alamat": {
                   "example": "any"
                 }
               }
@@ -1624,12 +1358,14 @@
             "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/santri/delete/{nis}": {
       "delete": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "nis",
             "in": "path",
             "required": true,
             "type": "string"
@@ -1645,40 +1381,6 @@
     "/api/setting-mapel": {
       "get": {
         "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "kelas": {
-                  "example": "any"
-                },
-                "lembaga": {
-                  "example": "any"
-                },
-                "mapel": {
-                  "example": "any"
-                },
-                "asatid": {
-                  "example": "any"
-                },
-                "status": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
         "responses": {
           "default": {
             "description": ""
@@ -1702,7 +1404,45 @@
             "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/setting-mapel/create": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "kelas": {
+                  "example": "any"
+                },
+                "lembaga": {
+                  "example": "any"
+                },
+                "mapel": {
+                  "example": "any"
+                },
+                "asatid": {
+                  "example": "any"
+                },
+                "status": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/setting-mapel/update/{id}": {
       "put": {
         "description": "",
         "parameters": [
@@ -1742,7 +1482,9 @@
             "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/setting-mapel/delete/{id}": {
       "delete": {
         "description": "",
         "parameters": [
@@ -1770,12 +1512,12 @@
         }
       }
     },
-    "/api/transaksi/{id}": {
+    "/api/transaksi/{code}": {
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "code",
             "in": "path",
             "required": true,
             "type": "string"
@@ -1830,12 +1572,12 @@
         }
       }
     },
-    "/api/transaksi/update/{id}": {
+    "/api/transaksi/update/{code}": {
       "put": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "code",
             "in": "path",
             "required": true,
             "type": "string"
@@ -1878,130 +1620,12 @@
         }
       }
     },
-    "/api/transaksi/delete/{id}": {
+    "/api/transaksi/delete/{code}": {
       "delete": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/transaksi-detail": {
-      "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "transaksi": {
-                  "example": "any"
-                },
-                "account": {
-                  "example": "any"
-                },
-                "sub_account": {
-                  "example": "any"
-                },
-                "amount": {
-                  "example": "any"
-                },
-                "type": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/transaksi-detail/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "transaksi": {
-                  "example": "any"
-                },
-                "account": {
-                  "example": "any"
-                },
-                "sub_account": {
-                  "example": "any"
-                },
-                "amount": {
-                  "example": "any"
-                },
-                "type": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
+            "name": "code",
             "in": "path",
             "required": true,
             "type": "string"
@@ -2017,40 +1641,6 @@
     "/api/users": {
       "get": {
         "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "username": {
-                  "example": "any"
-                },
-                "password": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "status": {
-                  "example": "any"
-                },
-                "level": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
         "responses": {
           "default": {
             "description": ""
@@ -2074,7 +1664,45 @@
             "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/users/create": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "status": {
+                  "example": "any"
+                },
+                "level": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/users/update/{id}": {
       "put": {
         "description": "",
         "parameters": [
@@ -2114,119 +1742,9 @@
             "description": ""
           }
         }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
       }
     },
-    "/api/wali-santri": {
-      "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nis": {
-                  "example": "any"
-                },
-                "nama": {
-                  "example": "any"
-                },
-                "pekerjaan": {
-                  "example": "any"
-                },
-                "alamat": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/wali-santri/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nis": {
-                  "example": "any"
-                },
-                "nama": {
-                  "example": "any"
-                },
-                "pekerjaan": {
-                  "example": "any"
-                },
-                "alamat": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
+    "/api/users/delete/{id}": {
       "delete": {
         "description": "",
         "parameters": [

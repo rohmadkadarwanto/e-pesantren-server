@@ -37,7 +37,25 @@ Sistem Management Pondok Pesantren
 
 ## Update
 
+ **Update 16-12-2023:**
+  - Pengahapusan modul Ayah santri, Ibu santi dan Wali santi
+  - Modul Santi, Ayah santri, Ibu santi dan Wali santi Satukali input saat melakukan input santri
+  - Perubahan endpoint
+    - api/{nama module}/create
+    - api/{nama module}/update/:{id}
+    - api/{nama module}/delete/:{id}
+  - Perubahan endpoint pada update, get, dan delete
+    - Application by package
+    - Client by package/app
+    - Santri by nis
+    - Assatid by nip
+    - Lembaga by code
+    - MataPelajaran by code
+    - Transaksi by code
+    
+
 - **Update 15-12-2023:**
+   - Modul Laporan transaksi
    - Ambil package dari tabel application berdasar api key
 
       - kelas
