@@ -12,7 +12,7 @@ exports.getAllLembaga = () => {
 
 exports.getLembagaByCode = (lembagaCode) => {
   const sql = 'SELECT * FROM lembaga WHERE code = ?';
-  return executeQuery(sql, [lembagaId])
+  return executeQuery(sql, [lembagaCode])
     .then(result => result)
     .catch(error => {
       console.error("Error fetching lembaga by Code:", error);
@@ -45,7 +45,7 @@ exports.updateLembaga = (lembagaCode, updatedLembagaData) => {
 
 exports.deleteLembaga = (lembagaCode) => {
   const sql = 'DELETE FROM lembaga WHERE code = ?';
-  return executeQuery(sql, [lembagaId])
+  return executeQuery(sql, [lembagaCode])
     .then(() => ({ message: "Lembaga deleted successfully" }))
     .catch(error => {
       console.error("Error deleting lembaga:", error);
