@@ -16,7 +16,7 @@ exports.getAllLembaga = async (req, res) => {
 exports.getLembagaByCode = async (req, res) => {
   const LembagaCode = req.params.code;
   try {
-    const Lembaga = await LembagaModel.getLembagaById(LembagaCode);
+    const Lembaga = await LembagaModel.getLembagaByCode(LembagaCode);
     Response.success(res, Lembaga);
   } catch (error) {
     Response.error(res, error.message);
