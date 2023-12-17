@@ -12,9 +12,9 @@ module.exports = {
   },
   // Konfigurasi Database
   db: {
-    host: '127.0.0.0',
+    host: '0.0.0.0',
     user: 'root',
-    password: 'Delta@1988dsb',
+    password: 'Delta@1988dsn',
     database: 'e_pesantren',
   },
 };
