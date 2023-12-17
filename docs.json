@@ -1,11 +1,11 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.1.0",
+    "version": "1.0.0",
     "title": "REST API Aplikasi Pesntren",
     "description": "Dokumentasi REST API Aplikasi Pesntren"
   },
-  "host": "117.53.45.122:3000",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
     "http",
@@ -687,6 +687,9 @@
                 "name": {
                   "example": "any"
                 },
+                "lembaga": {
+                  "example": "any"
+                },
                 "status": {
                   "example": "any"
                 }
@@ -718,6 +721,9 @@
               "type": "object",
               "properties": {
                 "name": {
+                  "example": "any"
+                },
+                "lembaga": {
                   "example": "any"
                 },
                 "status": {
