@@ -25,12 +25,12 @@ exports.getKelasById = async (req, res) => {
 
 exports.createKelas = async (req, res) => {
   const apiKey = req.headers[appConfig.app.apiKeyHeader] || appConfig.app.defaultApiKey;
-  const { name, status } = req.body;
+  const { name, lembaga, status } = req.body;
 
   try {
     // Ambil data aplikasi berdasarkan API key
     const app = await appUtils.getAppFromHeaderKey(apiKey) || 'dpi.pesantren.app';
-    const newKelas = await KelasModel.createKelas({ app, name, status });
+    const newKelas = await KelasModel.createKelas({ app, name, lembaga,status });
 
     return Response.success(res, newKelas, 201);
   } catch (error) {
@@ -41,9 +41,9 @@ exports.createKelas = async (req, res) => {
 
 exports.updateKelas = async (req, res) => {
   const KelasId = req.params.id;
-  const { name, status } = req.body;
+  const { name, lembaga,status } = req.body;
   try {
-    const updatedKelas = await KelasModel.updateKelas(KelasId, { name, status, updated_at: new Date() });
+    const updatedKelas = await KelasModel.updateKelas(KelasId, { name, lembaga, status, updated_at: new Date() });
     Response.success(res, updatedKelas);
   } catch (error) {
     Response.error(res, error.message);
