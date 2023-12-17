@@ -1,7 +1,20 @@
 const { executeQuery } = require('../../../config/db');
 
 exports.getAllSettingMapel = () => {
-  const sql = 'SELECT * FROM setting_mapel';
+  const sql = `SELECT
+    sm.id,
+    am.name AS asatid_name,
+    k.name AS kelas_name,
+    l.name AS lembaga_name,
+    mp.name AS mata_pelajaran_name,
+    sm.status
+    FROM
+    setting_mapel sm
+    JOIN asatid am ON sm.asatid = am.nip
+    JOIN kelas k ON sm.kelas = k.id
+    JOIN lembaga l ON sm.lembaga = l.code
+    JOIN mata_pelajaran mp ON sm.mapel = mp.code;
+    `;
   return executeQuery(sql)
     .then(result => result)
     .catch(error => {
@@ -11,7 +24,21 @@ exports.getAllSettingMapel = () => {
 };
 
 exports.getSettingMapelById = (settingMapelId) => {
-  const sql = 'SELECT * FROM setting_mapel WHERE id = ?';
+  const sql = `SELECT
+    sm.id,
+    am.name AS asatid_name,
+    k.name AS kelas_name,
+    l.name AS lembaga_name,
+    mp.name AS mata_pelajaran_name,
+    sm.status
+    FROM
+        setting_mapel sm
+    JOIN asatid am ON sm.asatid = am.nip
+    JOIN kelas k ON sm.kelas = k.id
+    JOIN lembaga l ON sm.lembaga = l.code
+    JOIN mata_pelajaran mp ON sm.mapel = mp.code
+     WHERE id = ?;
+    `;
   return executeQuery(sql, [settingMapelId])
     .then(result => result)
     .catch(error => {
