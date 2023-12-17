@@ -1,4 +1,5 @@
 // modules/News/controllers/NewsController.js
+const upload = require('../../../utils/uploadUtils');
 const NewsModel = require('../models/NewsModel');
 const Response = require('../../../utils/response');
 const appUtils = require('../../../utils/appUtils');
@@ -23,12 +24,16 @@ exports.getNewsById = async (req, res) => {
   }
 };
 
-exports.createNews = async (req, res) => {
-  const { title, text, images, type, status } = req.body;
+exports.createNews = upload.single('images'), async (req, res) => {
+  const { title, text, type, status } = req.body;
   const apiKey = req.headers[appConfig.app.apiKeyHeader] || appConfig.app.defaultApiKey;
+
   try {
     // Ambil data aplikasi berdasarkan API key
     const app = await appUtils.getAppFromHeaderKey(apiKey) || 'dpi.pesantren.app';
+
+    // Jika file tidak diunggah, Anda dapat mengaturnya ke nilai default atau memberikan tanggapan kesalahan sesuai kebutuhan
+    const images = req.file ? req.file.filename : 'default-image.jpg';
 
     const newNews = await NewsModel.createNews({ app, title, text, images, type, status });
     Response.success(res, newNews, 201);
@@ -37,10 +42,14 @@ exports.createNews = async (req, res) => {
   }
 };
 
-exports.updateNews = async (req, res) => {
+exports.updateNews = upload.single('images'), async (req, res) => {
   const NewsId = req.params.id;
-  const { title, text, images, type, status } = req.body;
+  const { title, text, type, status } = req.body;
+
   try {
+    // Jika file tidak diunggah, Anda dapat mengaturnya ke nilai default atau memberikan tanggapan kesalahan sesuai kebutuhan
+    const images = req.file ? req.file.filename : 'default-image.jpg';
+
     const updatedNews = await NewsModel.updateNews(NewsId, { title, text, images, type, status, updated_at: new Date() });
     Response.success(res, updatedNews);
   } catch (error) {
