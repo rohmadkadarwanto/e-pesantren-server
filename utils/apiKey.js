@@ -56,7 +56,7 @@ exports.verifyApiKey = async (apiKey) => {
 
 exports.apiKeyMiddleware = async (req, res, next) => {
   const apiKey = req.headers[appConfig.app.apiKeyHeader] || appConfig.app.defaultApiKey;
-  console.log('Request Headers:', req.headers);
+
 
   if (!apiKey) {
     return Response.error(res, 'API key is required', 401);
