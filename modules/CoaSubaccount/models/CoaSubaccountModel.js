@@ -23,7 +23,6 @@ exports.getAllCoaSubaccount = () => {
 };
 
 exports.getCoaSubaccountById = (coaSubaccountId) => {
-  const sql = 'SELECT * FROM coa_subaccount WHERE id = ?';
   const sql = `
     SELECT
       ca.id AS coa_account_id,
