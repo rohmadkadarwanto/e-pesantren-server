@@ -36,7 +36,8 @@ Sistem Management Pondok Pesantren
 - OS: Linux mint 18 , Windows 10, Linux CentOS 7
 
 ## Update
-
+**Update 18-12-2023:**
+  - Penambahan Fitur upload gambar pada module news dan client
  **Update 16-12-2023:**
   - Pengahapusan modul Ayah santri, Ibu santi dan Wali santi
   - Modul Santi, Ayah santri, Ibu santi dan Wali santi Satukali input saat melakukan input santri
