@@ -10,7 +10,9 @@ exports.getAllCoaSubaccount = () => {
       ca.normal_balance AS coa_account_normal_balance,
       cs.id AS id,
       cs.code AS code,
-      cs.name AS name
+      cs.name AS name,
+      cs.created_at,
+      cs.updated_at
     FROM coa_subaccount cs
     LEFT JOIN coa_account ca ON cs.account_code = ca.code;
     `;
@@ -25,14 +27,16 @@ exports.getAllCoaSubaccount = () => {
 exports.getCoaSubaccountById = (coaSubaccountId) => {
   const sql = `
     SELECT
-      ca.id AS coa_account_id,
-      ca.code AS account_code,
-      ca.name AS coa_account_name,
-      ca.type AS coa_account_type,
-      ca.normal_balance AS coa_account_normal_balance,
-      cs.id AS id,
-      cs.code AS code,
-      cs.name AS name
+    ca.id AS coa_account_id,
+    ca.code AS account_code,
+    ca.name AS coa_account_name,
+    ca.type AS coa_account_type,
+    ca.normal_balance AS coa_account_normal_balance,
+    cs.id AS id,
+    cs.code AS code,
+    cs.name AS name,
+    cs.created_at,
+    cs.updated_at
     FROM coa_account ca
     LEFT JOIN coa_subaccount cs ON ca.code = cs.account_code
     WHERE cs.id = ?;
