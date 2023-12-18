@@ -8,11 +8,11 @@ exports.getAllCoaSubaccount = () => {
       ca.name AS coa_account_name,
       ca.type AS coa_account_type,
       ca.normal_balance AS coa_account_normal_balance,
-      cs.id AS coa_subaccount_id,
+      cs.id AS id,
       cs.code AS code,
       cs.name AS name
-    FROM coa_account ca
-    LEFT JOIN coa_subaccount cs ON ca.code = cs.account_code;
+    FROM coa_subaccount cs
+    LEFT JOIN coa_account ca ON cs.account_code = ca.code;
     `;
   return executeQuery(sql)
     .then(result => result)
@@ -30,7 +30,7 @@ exports.getCoaSubaccountById = (coaSubaccountId) => {
       ca.name AS coa_account_name,
       ca.type AS coa_account_type,
       ca.normal_balance AS coa_account_normal_balance,
-      cs.id AS coa_subaccount_id,
+      cs.id AS id,
       cs.code AS code,
       cs.name AS name
     FROM coa_account ca
