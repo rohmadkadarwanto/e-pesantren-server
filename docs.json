@@ -1,14 +1,13 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.1.1",
+    "version": "1.1.2",
     "title": "REST API Aplikasi Pesntren",
     "description": "Dokumentasi REST API Aplikasi Pesntren"
   },
-  "host": "117.53.45.122:3000",
+  "host": "api.appschool.biz.id",
   "basePath": "/",
   "schemes": [
-    "http",
     "https"
   ],
   "securityDefinitions": {
@@ -132,12 +131,12 @@
         }
       }
     },
-    "/api/application/delete/{package}": {
+    "/api/application/delete/{id}": {
       "delete": {
         "description": "",
         "parameters": [
           {
-            "name": "package",
+            "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
@@ -318,9 +317,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "code": {
-                  "example": "any"
-                },
                 "name": {
                   "example": "any"
                 },
@@ -331,9 +327,6 @@
                   "example": "any"
                 },
                 "website": {
-                  "example": "any"
-                },
-                "logo": {
                   "example": "any"
                 },
                 "address": {
@@ -366,9 +359,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "code": {
-                  "example": "any"
-                },
                 "name": {
                   "example": "any"
                 },
@@ -379,9 +369,6 @@
                   "example": "any"
                 },
                 "website": {
-                  "example": "any"
-                },
-                "logo": {
                   "example": "any"
                 },
                 "address": {
@@ -1008,9 +995,6 @@
                 "text": {
                   "example": "any"
                 },
-                "images": {
-                  "example": "any"
-                },
                 "type": {
                   "example": "any"
                 },
@@ -1048,9 +1032,6 @@
                   "example": "any"
                 },
                 "text": {
-                  "example": "any"
-                },
-                "images": {
                   "example": "any"
                 },
                 "type": {
