@@ -11,5 +11,5 @@ Router.get('/application', Application.getAllApplication);
 Router.get('/application/:package', Application.getApplicationById);
 Router.post('/application/create', Application.createApplication);
 Router.put('/application/update/:package', Application.updateApplication);
-Router.delete('/application/delete/:package', Application.deleteApplication);
+Router.delete('/application/delete/:id', Application.deleteApplication);
 module.exports = Router;

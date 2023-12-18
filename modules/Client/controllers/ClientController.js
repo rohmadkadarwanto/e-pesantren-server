@@ -22,8 +22,12 @@ exports.getClientByPackage = async (req, res) => {
 };
 
 exports.createClient = async (req, res) => {
-  const { code, name, email, phone, website, logo, address } = req.body;
+  const { name, email, phone, website, address } = req.body;
+  const code = 'CLN' + Math.random().toString(36).substring(2, 8).toUpperCase();
   try {
+    // Jika file tidak diunggah, Anda dapat mengaturnya ke nilai default atau memberikan tanggapan kesalahan sesuai kebutuhan
+    const logo = req.file ? req.file.filename : 'default-logo.jpg';
+
     const newClient = await ClientModel.createClient({ code, name, email, phone, website, logo, address });
     Response.success(res, newClient, 201);
   } catch (error) {
@@ -33,9 +37,15 @@ exports.createClient = async (req, res) => {
 
 exports.updateClient = async (req, res) => {
   const ClientId = req.params.id;
-  const { code, name, email, phone, website, logo, address } = req.body;
+  const { name, email, phone, website, address } = req.body;
   try {
-    const updatedClient = await ClientModel.updateClient(ClientId, { code, name, email, phone, website, logo, address, updated_at: new Date() });
+    // Jika file tidak diunggah, Anda dapat mengaturnya ke nilai default atau memberikan tanggapan kesalahan sesuai kebutuhan
+    const logo = req.file ? req.file.filename : '';
+    if(!logo) {
+      const updatedClient = await ClientModel.updateClient(ClientId, { name, email, phone, website, address, updated_at: new Date() });
+    } else {
+      const updatedClient = await ClientModel.updateClient(ClientId, { name, email, phone, website, logo, address, updated_at: new Date() });
+    }
     Response.success(res, updatedClient);
   } catch (error) {
     Response.error(res, error.message);
