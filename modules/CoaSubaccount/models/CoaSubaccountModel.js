@@ -1,7 +1,19 @@
 const { executeQuery } = require('../../../config/db');
 
 exports.getAllCoaSubaccount = () => {
-  const sql = 'SELECT * FROM coa_subaccount';
+  const sql = `
+    SELECT
+      ca.id AS coa_account_id,
+      ca.code AS account_code,
+      ca.name AS coa_account_name,
+      ca.type AS coa_account_type,
+      ca.normal_balance AS coa_account_normal_balance,
+      cs.id AS coa_subaccount_id,
+      cs.code AS code,
+      cs.name AS name
+    FROM coa_account ca
+    LEFT JOIN coa_subaccount cs ON ca.code = cs.account_code;
+    `;
   return executeQuery(sql)
     .then(result => result)
     .catch(error => {
@@ -12,6 +24,20 @@ exports.getAllCoaSubaccount = () => {
 
 exports.getCoaSubaccountById = (coaSubaccountId) => {
   const sql = 'SELECT * FROM coa_subaccount WHERE id = ?';
+  const sql = `
+    SELECT
+      ca.id AS coa_account_id,
+      ca.code AS account_code,
+      ca.name AS coa_account_name,
+      ca.type AS coa_account_type,
+      ca.normal_balance AS coa_account_normal_balance,
+      cs.id AS coa_subaccount_id,
+      cs.code AS code,
+      cs.name AS name
+    FROM coa_account ca
+    LEFT JOIN coa_subaccount cs ON ca.code = cs.account_code
+    WHERE cs.id = ?;
+    `;
   return executeQuery(sql, [coaSubaccountId])
     .then(result => result)
     .catch(error => {
