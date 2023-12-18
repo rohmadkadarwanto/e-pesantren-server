@@ -146,3 +146,140 @@ exports.deleteTransaksi = async (TransaksiCode) => {
     throw error;
   }
 };
+
+exports.getNeraca = async () => {
+  try {
+    const sql = `
+    SELECT
+      'Aset' AS jenis,
+      ca.name AS account_name,
+      cs.name AS subaccount_name,
+      SUM(CASE WHEN td.type = 'Debit' THEN td.amount ELSE 0 END) AS debit,
+      SUM(CASE WHEN td.type = 'Credit' THEN td.amount ELSE 0 END) AS kredit
+    FROM transaksi_detail td
+    JOIN coa_account ca ON td.account = ca.code
+    JOIN coa_subaccount cs ON td.sub_account = cs.code
+    WHERE ca.type = 'Aset'
+    GROUP BY ca.name, cs.name
+
+    UNION
+
+    SELECT
+      'Ekuitas' AS jenis,
+      ca.name AS account_name,
+      cs.name AS subaccount_name,
+      SUM(CASE WHEN td.type = 'Debit' THEN td.amount ELSE 0 END) AS debit,
+      SUM(CASE WHEN td.type = 'Credit' THEN td.amount ELSE 0 END) AS kredit
+    FROM transaksi_detail td
+    JOIN coa_account ca ON td.account = ca.code
+    JOIN coa_subaccount cs ON td.sub_account = cs.code
+    WHERE ca.type = 'Aset'
+    GROUP BY ca.name, cs.name;
+
+      `;
+    const results = await executeQuery(sql);
+    return results;
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.getLabaRugi = async () => {
+  try {
+    const sql = `
+    SELECT
+      'Pendapatan' AS jenis,
+      ca.name AS account_name,
+      cs.name AS subaccount_name,
+      SUM(CASE WHEN td.type = 'Credit' THEN td.amount ELSE 0 END) AS pendapatan,
+      0 AS beban
+    FROM transaksi_detail td
+    JOIN coa_account ca ON td.account = ca.code
+    JOIN coa_subaccount cs ON td.sub_account = cs.code
+    WHERE ca.type = 'Pendapatan'
+    GROUP BY ca.name, cs.name
+
+    UNION
+
+    SELECT
+      'Beban' AS jenis,
+      ca.name AS account_name,
+      cs.name AS subaccount_name,
+      0 AS pendapatan,
+      SUM(CASE WHEN td.type = 'Debit' THEN td.amount ELSE 0 END) AS beban
+    FROM transaksi_detail td
+    JOIN coa_account ca ON td.account = ca.code
+    JOIN coa_subaccount cs ON td.sub_account = cs.code
+    WHERE ca.type = 'Beban'
+    GROUP BY ca.name, cs.name;
+      `;
+    const results = await executeQuery(sql);
+    return results;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+exports.getPerubahanModal = async () => {
+  try {
+    const sql = `
+    SELECT
+      'Ekuitas' AS jenis,
+      ca.name AS account_name,
+      cs.name AS subaccount_name,
+      SUM(CASE WHEN td.type = 'Debit' THEN td.amount ELSE 0 END) AS penambahan_modal,
+      SUM(CASE WHEN td.type = 'Credit' THEN td.amount ELSE 0 END) AS pengurangan_modal
+    FROM transaksi_detail td
+    JOIN coa_account ca ON td.account = ca.code
+    JOIN coa_subaccount cs ON td.sub_account = cs.code
+    WHERE ca.type = 'Ekuitas'
+    GROUP BY ca.name, cs.name;
+      `;
+    const results = await executeQuery(sql);
+    return results;
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.getArusKas = async () => {
+  try {
+    const sql = `
+    SELECT
+      'Operasi' AS jenis,
+      SUM(CASE WHEN td.type = 'Debit' AND ca.type = 'Aset' THEN td.amount
+               WHEN td.type = 'Credit' AND ca.type = 'Pendapatan' THEN td.amount * -1
+               ELSE 0 END) AS arus_kas_operasi
+    FROM transaksi_detail td
+    JOIN coa_account ca ON td.account = ca.code
+    GROUP BY jenis
+
+    UNION
+
+    SELECT
+      'Investasi' AS jenis,
+      SUM(CASE WHEN td.type = 'Debit' AND ca.type = 'Aset' THEN td.amount * -1
+               WHEN td.type = 'Credit' AND ca.type = 'Aset' THEN td.amount
+               ELSE 0 END) AS arus_kas_investasi
+    FROM transaksi_detail td
+    JOIN coa_account ca ON td.account = ca.code
+    GROUP BY jenis
+
+    UNION
+
+    SELECT
+      'Pembiayaan' AS jenis,
+      SUM(CASE WHEN td.type = 'Debit' AND ca.type = 'Ekuitas' THEN td.amount * -1
+               WHEN td.type = 'Credit' AND ca.type = 'Ekuitas' THEN td.amount
+               ELSE 0 END) AS arus_kas_pembiayaan
+    FROM transaksi_detail td
+    JOIN coa_account ca ON td.account = ca.code
+    GROUP BY jenis;
+      `;
+    const results = await executeQuery(sql);
+    return results;
+  } catch (error) {
+    throw error;
+  }
+};

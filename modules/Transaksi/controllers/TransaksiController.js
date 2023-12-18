@@ -107,3 +107,41 @@ exports.deleteTransaksi = async (req, res) => {
     Response.error(res, error.message);
   }
 };
+
+
+
+exports.getNeraca = async (req, res) => {
+  try {
+    const neraca = await TransaksiModel.getNeraca();
+    Response.success(res, neraca);
+  } catch (error) {
+    Response.error(res, error.message);
+  }
+};
+
+exports.getLabaRugi = async (req, res) => {
+  try {
+    const labaRugi = await TransaksiModel.getLabaRugi();
+    Response.success(res, labaRugi);
+  } catch (error) {
+    Response.error(res, error.message);
+  }
+};
+
+exports.getPerubahanModal = async (req, res) => {
+  try {
+    const labaRugi = await TransaksiModel.getPerubahanModal();
+    Response.success(res, labaRugi);
+  } catch (error) {
+    Response.error(res, error.message);
+  }
+};
+
+exports.getArusKas = async (req, res) => {
+  try {
+    const labaRugi = await TransaksiModel.getArusKas();
+    Response.success(res, labaRugi);
+  } catch (error) {
+    Response.error(res, error.message);
+  }
+};
