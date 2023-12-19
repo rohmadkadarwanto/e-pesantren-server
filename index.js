@@ -14,11 +14,17 @@ require('dotenv').config();
 
 const App = Express();
 
+// Static files
+//App.use(Express.static('public'));
+App.use('/img',Express.static('public/uploads/images'));
+
 // Middleware
 App.use(BodyParser.json());
 App.use(BodyParser.urlencoded({ extended: true }));
 
 App.use(Cors());
+
+
 
 // Middleware untuk memeriksa API key di seluruh rute utama
 //App.use(apiKeyMiddleware);
