@@ -87,8 +87,16 @@ exports.updateKelas = (kelasId, data) => {
 
 exports.deleteKelas = (kelasId) => {
   const sql = 'DELETE FROM kelas WHERE id = ?';
+  const deleteSettingKelasSql = 'DELETE FROM setting_kelas WHERE kelas = ?';
   return executeQuery(sql, [kelasId])
-    .then(() => ({ message: "Kelas deleted successfully" }))
+  .then(results => {
+
+    executeQuery(deleteSettingKelasSql, [kelasId]);
+
+    const deleteKelas = { message: "Kelas deleted successfully"}
+
+    return deleteKelas;
+  })
     .catch(error => {
       console.error("Error deleting kelas:", error);
       throw { message: "Failed to delete kelas", error };
