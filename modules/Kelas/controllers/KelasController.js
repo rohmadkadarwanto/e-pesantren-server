@@ -32,7 +32,7 @@ exports.createKelas = async (req, res) => {
     const app = await appUtils.getAppFromHeaderKey(apiKey) || 'dpi.pesantren.app';
     const newKelas = await KelasModel.createKelas({ app, name, lembaga,status });
 
-    return Response.success(res, newKelas, 201);
+    return Response.success(res, newKelas);
   } catch (error) {
     console.error(error);
     return Response.error(res, 'Internal server error', 500);

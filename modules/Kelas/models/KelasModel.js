@@ -41,8 +41,10 @@ exports.createKelas = (data) => {
     .then(results => {
 
       const settingKelasData = {
+        app: data.app,
         lembaga: data.lembaga,
-        kelas: results.insertId
+        kelas: results.insertId,
+        status: data.status
       }
 
       executeQuery(settingKelasSql, [settingKelasData]);
@@ -64,7 +66,8 @@ exports.updateKelas = (kelasId, data) => {
     status: data.status
   }
   const settingKelasData = {
-    lembaga: data.lembaga
+    lembaga: data.lembaga,
+    status: data.status
   }
 
   return executeQuery(sql, [kelasData, kelasId])
