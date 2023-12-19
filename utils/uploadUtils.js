@@ -15,7 +15,7 @@ const fileFilter = (req, file, cb) => {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const uploadPath = path.join(__dirname, '../public/uploads');
+    const uploadPath = path.join(__dirname, '../public/uploads/images');
     if (!fs.existsSync(uploadPath)) {
       fs.mkdirSync(uploadPath);
     }
