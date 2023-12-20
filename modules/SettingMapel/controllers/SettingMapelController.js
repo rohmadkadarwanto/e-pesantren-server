@@ -24,11 +24,12 @@ exports.getSettingMapelById = async (req, res) => {
 };
 
 exports.createSettingMapel = async (req, res) => {
-  const { kelas, lembaga, mapel, asatid, status } = req.body;
+  const { kelas, mapel, asatid, status } = req.body;
   const apiKey = req.headers[appConfig.app.apiKeyHeader] || appConfig.app.defaultApiKey;
   try {
     // Ambil data aplikasi berdasarkan API key
     const app = await appUtils.getAppFromHeaderKey(apiKey) || 'dpi.pesantren.app';
+    const lembaga = await appUtils.getCodeLembagaByKelasId(kelas);
 
     const newSettingMapel = await SettingMapelModel.createSettingMapel({ app, kelas, lembaga, mapel, asatid, status });
     Response.success(res, newSettingMapel, 201);
@@ -39,8 +40,9 @@ exports.createSettingMapel = async (req, res) => {
 
 exports.updateSettingMapel = async (req, res) => {
   const SettingMapelId = req.params.id;
-  const { kelas, lembaga, mapel, asatid, status } = req.body;
+  const { kelas, mapel, asatid, status } = req.body;
   try {
+    const lembaga = await appUtils.getCodeLembagaByKelasId(kelas);
     const updatedSettingMapel = await SettingMapelModel.updateSettingMapel(SettingMapelId, { kelas, lembaga, mapel, asatid, status, updated_at: new Date() });
     Response.success(res, updatedSettingMapel);
   } catch (error) {
