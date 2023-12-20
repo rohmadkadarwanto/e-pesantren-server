@@ -27,3 +27,21 @@ exports.getAppFromHeaderKey = async (headerKey) => {
     throw error;
   }
 };
+
+exports.getCodeLembagaByKelasId = async (kelasId) => {
+  try {
+    const sql = `SELECT l.code AS code_lembaga
+    FROM setting_kelas sk
+    JOIN kelas k ON sk.kelas = k.id
+    JOIN lembaga l ON sk.lembaga = l.code WHERE k.id = ?`;
+
+    const [results] = await executeQuery(sql, [kelasId]);
+    if (results.length > 0) {
+      return results[0].code_lembaga;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    throw error;
+  }
+};
