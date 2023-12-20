@@ -17,7 +17,7 @@ const executeQuery = async (sql, values) => {
 
 exports.getAppFromHeaderKey = async (headerKey) => {
   try {
-    const [results] = await executeQuery('SELECT package FROM application WHERE `key` = ?', [headerKey]);
+    const results = await executeQuery('SELECT package FROM application WHERE `key` = ?', [headerKey]);
     if (results.length > 0) {
       return results[0].package;
     } else {
@@ -34,8 +34,7 @@ exports.getCodeLembagaByKelasId = async (kelasId) => {
     FROM setting_kelas sk
     JOIN kelas k ON sk.kelas = k.id
     JOIN lembaga l ON sk.lembaga = l.code WHERE k.id = ?`;
-
-    const [results] = await executeQuery(sql, [kelasId]);
+    const results = await executeQuery(sql, [kelasId]);
     if (results.length > 0) {
       return results[0].code_lembaga;
     } else {
