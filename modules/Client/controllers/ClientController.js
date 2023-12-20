@@ -36,8 +36,9 @@ exports.createClient = async (req, res) => {
 };
 
 exports.updateClient = async (req, res) => {
-  const ClientId = req.params.id;
+  const ClientId = req.params.package;
   const { name, email, phone, website, address } = req.body;
+  console.error(ClientId);
   try {
     // Jika file tidak diunggah, Anda dapat mengaturnya ke nilai default atau memberikan tanggapan kesalahan sesuai kebutuhan
     const logo = req.file ? req.file.filename : '';

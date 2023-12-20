@@ -1,7 +1,28 @@
 const { executeQuery } = require('../../../config/db');
 
 exports.getAllClient = () => {
-  const sql = 'SELECT * FROM client';
+  const sql = `SELECT
+    application.id AS application_id,
+    application.name AS application_name,
+    application.package,
+    client.id AS client_id,
+    client.code AS client_code,
+    client.name AS client_name,
+    client.email,
+    client.phone,
+    client.website,
+    client.logo,
+    client.address,
+    application.key,
+    application.status,
+    application.type,
+    application.created_at AS application_created_at,
+    application.updated_at AS application_updated_at
+FROM
+    application
+JOIN
+    client ON application.client = client.code;
+`;
   return executeQuery(sql)
     .then(result => result)
     .catch(error => {
@@ -11,7 +32,28 @@ exports.getAllClient = () => {
 };
 
 exports.getClientByPackage = (clientApp) => {
-  const sql = 'SELECT * FROM client WHERE app = ?';
+  const sql = `SELECT
+    application.id AS application_id,
+    application.name AS application_name,
+    application.package,
+    client.id AS client_id,
+    client.code AS client_code,
+    client.name AS client_name,
+    client.email,
+    client.phone,
+    client.website,
+    client.logo,
+    client.address,
+    application.key,
+    application.status,
+    application.type,
+    application.created_at AS application_created_at,
+    application.updated_at AS application_updated_at
+FROM
+    application
+JOIN
+    client ON application.client = client.code  WHERE client.code = ?;
+`;
   return executeQuery(sql, [clientApp])
     .then(result => result)
     .catch(error => {
@@ -34,7 +76,7 @@ exports.createClient = (clientData) => {
 };
 
 exports.updateClient = (clientId, updatedClientData) => {
-  const sql = 'UPDATE client SET ? WHERE id = ?';
+  const sql = 'UPDATE client SET ? WHERE code = ?';
   return executeQuery(sql, [updatedClientData, clientId])
     .then(() => ({ message: "Client updated successfully", id: clientId, ...updatedClientData }))
     .catch(error => {
@@ -44,7 +86,7 @@ exports.updateClient = (clientId, updatedClientData) => {
 };
 
 exports.deleteClient = (clientId) => {
-  const sql = 'DELETE FROM client WHERE id = ?';
+  const sql = 'DELETE FROM client WHERE code = ?';
   return executeQuery(sql, [clientId])
     .then(() => ({ message: "Client deleted successfully" }))
     .catch(error => {
