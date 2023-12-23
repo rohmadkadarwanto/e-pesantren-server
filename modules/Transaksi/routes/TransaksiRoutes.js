@@ -18,9 +18,9 @@ Router.get('/transaksi/laporan/laba-rugi', Transaksi.getLabaRugi);
 Router.get('/transaksi/laporan/perubahan-modal', Transaksi.getPerubahanModal);
 Router.get('/transaksi/laporan/arus-kas', Transaksi.getArusKas);
 
-Router.post('/transaksi/laporan/neraca/:startDate/:endDate', Transaksi.getNeracaByPeriode);
-Router.post('/transaksi/laporan/laba-rugi/:startDate/:endDate', Transaksi.getLabaRugiByPeriode);
-Router.post('/transaksi/laporan/perubahan-modal/:startDate/:endDate', Transaksi.getPerubahanModalByPeriode);
-Router.post('/transaksi/laporan/arus-kas/:startDate/:endDate', Transaksi.getArusKasByPeriode);
+Router.get('/transaksi/laporan/neraca/:startDate/:endDate', Transaksi.getNeracaByPeriode);
+Router.get('/transaksi/laporan/laba-rugi/:startDate/:endDate', Transaksi.getLabaRugiByPeriode);
+Router.get('/transaksi/laporan/perubahan-modal/:startDate/:endDate', Transaksi.getPerubahanModalByPeriode);
+Router.get('/transaksi/laporan/arus-kas/:startDate/:endDate', Transaksi.getArusKasByPeriode);
 
 module.exports = Router;
