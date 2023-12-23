@@ -17,6 +17,9 @@ const TransaksiRoutes = require('./modules/Transaksi/routes/TransaksiRoutes');
 const UsersRoutes = require('./modules/Users/routes/UsersRoutes');
 const AuthRoutes = require('./modules/Auth/routes/AuthRoutes');
 
+const NasabahRoutes = require('./modules/Nasabah/routes/NasabahRoutes');
+const RekeningRoutes = require('./modules/Transaksi/routes/RekeningRoutes');
+
 Router.use('/api', ApplicationRoutes);
 Router.use('/api', AsatidRoutes);
 Router.use('/api', ClientRoutes);
@@ -32,6 +35,8 @@ Router.use('/api', SettingMapelRoutes);
 Router.use('/api', TransaksiRoutes);
 Router.use('/api', UsersRoutes);
 
+Router.use('/api', NasabahRoutes);
+Router.use('/api', RekeningRoutes);
 //
 Router.use('/api/auth', AuthRoutes);
 
