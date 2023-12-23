@@ -18,6 +18,7 @@ Router.get('/transaksi/laporan/laba-rugi', Transaksi.getLabaRugi);
 Router.get('/transaksi/laporan/perubahan-modal', Transaksi.getPerubahanModal);
 Router.get('/transaksi/laporan/arus-kas', Transaksi.getArusKas);
 
+Router.get('/transaksi/laporan/:startDate/:endDate', Transaksi.getTransaksiByPeriode);
 Router.get('/transaksi/laporan/neraca/:startDate/:endDate', Transaksi.getNeracaByPeriode);
 Router.get('/transaksi/laporan/laba-rugi/:startDate/:endDate', Transaksi.getLabaRugiByPeriode);
 Router.get('/transaksi/laporan/perubahan-modal/:startDate/:endDate', Transaksi.getPerubahanModalByPeriode);

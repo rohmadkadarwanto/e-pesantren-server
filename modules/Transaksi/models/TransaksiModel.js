@@ -282,6 +282,42 @@ exports.getArusKas = async () => {
   }
 };
 
+
+
+exports.getTransaksiByPeriode = async (startDate, endDate) => {
+  try {
+    const sql = `
+      SELECT
+        t.id AS transaksi_id,
+        t.code,
+        td.account,
+        td.sub_account,
+        td.amount,
+        td.type,
+        td.created_at AS transaksi_detail_created_at,
+        ca.id AS coa_account_id,
+        ca.code AS coa_account_code,
+        ca.name AS coa_account_name,
+        ca.type AS coa_account_type,
+        ca.normal_balance AS coa_account_normal_balance,
+        cs.id AS coa_subaccount_id,
+        cs.account_code AS coa_subaccount_account_code,
+        cs.code AS coa_subaccount_code,
+        cs.name AS coa_subaccount_name
+      FROM transaksi_detail td
+      LEFT JOIN transaksi t ON td.transaksi = t.code
+      LEFT JOIN coa_account ca ON td.account = ca.code
+      LEFT JOIN coa_subaccount cs ON td.sub_account = cs.code
+      WHERE td.created_at BETWEEN '${startDate}' AND '${endDate}';
+    `;
+      const results = await executeQuery(sql);
+      return results;
+    } catch (error) {
+      throw error;
+    }
+};
+
+
 exports.getNeracaByPeriode = async (startDate, endDate) => {
   try {
     const sql = `

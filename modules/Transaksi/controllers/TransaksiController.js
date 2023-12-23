@@ -190,3 +190,38 @@ exports.getArusKasByPeriode = async (req, res) => {
     Response.error(res, error.message);
   }
 };
+
+exports.getTransaksiByPeriode = async (req, res) => {
+  const startDate = req.params.startDate;
+  const endDate = req.params.endDate;
+  try {
+    const results = await TransaksiModel.getTransaksiByPeriode(startDate, endDate);
+
+    const Transaksi = results.map(result => ({
+      transaksi_detail: {
+        id: result.transaksi_id,
+        code: result.code,
+        account: {
+          id: result.coa_account_id,
+          code: result.coa_account_code,
+          name: result.coa_account_name,
+          type: result.coa_account_type,
+          normal_balance: result.coa_account_normal_balance,
+        },
+        sub_account: {
+          id: result.coa_subaccount_id,
+          account_code: result.coa_subaccount_account_code,
+          code: result.coa_subaccount_code,
+          name: result.coa_subaccount_name,
+        },
+        amount: result.amount,
+        type: result.type,
+        created_at: result.transaksi_detail_created_at,
+      },
+    }));
+
+    Response.success(res, Transaksi);
+  } catch (error) {
+    Response.error(res, error.message);
+  }
+};
