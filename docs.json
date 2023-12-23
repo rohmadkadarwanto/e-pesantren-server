@@ -1,13 +1,14 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.1.4",
+    "version": "1.1.8",
     "title": "REST API Aplikasi Pesntren",
     "description": "Dokumentasi REST API Aplikasi Pesntren"
   },
-  "host": "api.appschool.biz.id",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
+    "http",
     "https"
   ],
   "securityDefinitions": {
@@ -216,12 +217,54 @@
         }
       }
     },
-    "/api/asatid/update/{nip}": {
+    "/api/asatid/update/nip/{nip}": {
       "put": {
         "description": "",
         "parameters": [
           {
             "name": "nip",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "phone": {
+                  "example": "any"
+                },
+                "address": {
+                  "example": "any"
+                },
+                "status": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/asatid/update/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
@@ -1406,9 +1449,6 @@
                 "kelas": {
                   "example": "any"
                 },
-                "lembaga": {
-                  "example": "any"
-                },
                 "mapel": {
                   "example": "any"
                 },
@@ -1446,9 +1486,6 @@
               "type": "object",
               "properties": {
                 "kelas": {
-                  "example": "any"
-                },
-                "lembaga": {
                   "example": "any"
                 },
                 "mapel": {
@@ -1658,6 +1695,102 @@
     "/api/transaksi/laporan/arus-kas": {
       "get": {
         "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/transaksi/laporan/neraca/{startDate}/{endDate}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "endDate",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/transaksi/laporan/laba-rugi/{startDate}/{endDate}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "endDate",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/transaksi/laporan/perubahan-modal/{startDate}/{endDate}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "endDate",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/transaksi/laporan/arus-kas/{startDate}/{endDate}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "endDate",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "default": {
             "description": ""
