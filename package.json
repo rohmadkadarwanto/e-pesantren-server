@@ -1,6 +1,6 @@
 {
   "name": "e-pesantren-server",
-  "version": "1.1.4",
+  "version": "1.1.10",
   "description": "RETS API untuk Sistem Management Pondok Pesantren",
   "main": "index.js",
   "scripts": {
@@ -19,8 +19,5 @@
     "node-pre-gyp": "^0.17.0",
     "sequelize": "^6.3.5",
     "swagger-ui-express": "^5.0.0"
-  },
-  "devDependencies": {
-    "swagger-autogen": "^2.23.7"
   }
 }
