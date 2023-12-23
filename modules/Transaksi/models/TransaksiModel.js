@@ -1,6 +1,6 @@
 const { executeQuery } = require('../../../config/db');
 
-exports.getAllTransaksi = () => {
+exports.getAllTransaksi = async () => {
   const sql = `
     SELECT
       t.id AS transaksi_id,
@@ -28,7 +28,7 @@ exports.getAllTransaksi = () => {
   return executeQuery(sql);
 };
 
-exports.getTransaksiByCode = (TransaksiCode) => {
+exports.getTransaksiByCode = async (TransaksiCode) => {
   const sql = `
     SELECT
       t.id AS transaksi_id,
@@ -57,7 +57,7 @@ exports.getTransaksiByCode = (TransaksiCode) => {
   return executeQuery(sql, [TransaksiCode]);
 };
 
-exports.createTransaksi = (data) => {
+exports.createTransaksi = async (data) => {
   const transaksiSql = 'INSERT INTO transaksi SET ?';
   const transaksiDetailSql = 'INSERT INTO transaksi_detail SET ?';
 
@@ -175,7 +175,6 @@ exports.getNeraca = async () => {
     JOIN coa_subaccount cs ON td.sub_account = cs.code
     WHERE ca.type = 'Aset'
     GROUP BY ca.name, cs.name;
-
       `;
     const results = await executeQuery(sql);
     return results;
@@ -219,7 +218,6 @@ exports.getLabaRugi = async () => {
     throw error;
   }
 };
-
 
 exports.getPerubahanModal = async () => {
   try {
@@ -276,6 +274,169 @@ exports.getArusKas = async () => {
     FROM transaksi_detail td
     JOIN coa_account ca ON td.account = ca.code
     GROUP BY jenis;
+      `;
+    const results = await executeQuery(sql);
+    return results;
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.getNeracaByPeriode = async (startDate, endDate) => {
+  try {
+    const sql = `
+      -- Laporan Neraca (Balance Sheet)
+      -- A. Aktiva
+      SELECT
+        'Aset' AS jenis,
+        ca.name AS account_name,
+        cs.name AS subaccount_name,
+        SUM(CASE WHEN td.type = 'Debit' THEN td.amount ELSE 0 END) AS debit,
+        SUM(CASE WHEN td.type = 'Credit' THEN td.amount ELSE 0 END) AS kredit
+      FROM transaksi_detail td
+      JOIN coa_account ca ON td.account = ca.code
+      JOIN coa_subaccount cs ON td.sub_account = cs.code
+      WHERE ca.type = 'Aset'
+        AND td.created_at BETWEEN '${startDate}' AND '${endDate}'
+      GROUP BY ca.name, cs.name
+
+      -- B. Kewajiban
+      UNION
+
+      SELECT
+        'Kewajiban' AS jenis,
+        ca.name AS account_name,
+        cs.name AS subaccount_name,
+        0 AS debit,
+        SUM(CASE WHEN td.type = 'Credit' THEN td.amount ELSE 0 END) AS kredit
+      FROM transaksi_detail td
+      JOIN coa_account ca ON td.account = ca.code
+      JOIN coa_subaccount cs ON td.sub_account = cs.code
+      WHERE ca.type = 'Kewajiban'
+        AND td.created_at BETWEEN '${startDate}' AND '${endDate}'
+      GROUP BY ca.name, cs.name
+
+      -- C. Ekuitas
+      UNION
+
+      SELECT
+        'Ekuitas' AS jenis,
+        ca.name AS account_name,
+        cs.name AS subaccount_name,
+        SUM(CASE WHEN td.type = 'Debit' THEN td.amount ELSE 0 END) AS debit,
+        SUM(CASE WHEN td.type = 'Credit' THEN td.amount ELSE 0 END) AS kredit
+      FROM transaksi_detail td
+      JOIN coa_account ca ON td.account = ca.code
+      JOIN coa_subaccount cs ON td.sub_account = cs.code
+      WHERE ca.type = 'Ekuitas'
+        AND td.created_at BETWEEN '${startDate}' AND '${endDate}'
+      GROUP BY ca.name, cs.name;
+    `;
+
+    const results = await executeQuery(sql);
+    return results;
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.getLabaRugiByPeriode = async (startDate, endDate) => {
+  try {
+    const sql = `
+    -- Laporan Laba Rugi (Income Statement)
+    SELECT
+      'Pendapatan' AS jenis,
+      ca.name AS account_name,
+      cs.name AS subaccount_name,
+      SUM(CASE WHEN td.type = 'Credit' THEN td.amount ELSE 0 END) AS pendapatan,
+      0 AS beban
+    FROM transaksi_detail td
+    JOIN coa_account ca ON td.account = ca.code
+    JOIN coa_subaccount cs ON td.sub_account = cs.code
+    WHERE ca.type = 'Pendapatan'
+      AND td.created_at BETWEEN '${startDate}' AND '${endDate}'
+    GROUP BY ca.name, cs.name
+
+    UNION
+
+    SELECT
+      'Beban' AS jenis,
+      ca.name AS account_name,
+      cs.name AS subaccount_name,
+      0 AS pendapatan,
+      SUM(CASE WHEN td.type = 'Debit' THEN td.amount ELSE 0 END) AS beban
+    FROM transaksi_detail td
+    JOIN coa_account ca ON td.account = ca.code
+    JOIN coa_subaccount cs ON td.sub_account = cs.code
+    WHERE ca.type = 'Beban'
+      AND td.created_at BETWEEN '${startDate}' AND '${endDate}'
+    GROUP BY ca.name, cs.name;
+      `;
+    const results = await executeQuery(sql);
+    return results;
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.getPerubahanModalByPeriode = async (startDate, endDate) => {
+  try {
+    const sql = `
+    -- Laporan Perubahan Modal (Statement of Changes in Equity)
+    SELECT
+      'Ekuitas' AS jenis,
+      ca.name AS account_name,
+      cs.name AS subaccount_name,
+      SUM(CASE WHEN td.type = 'Debit' THEN td.amount ELSE 0 END) AS penambahan_modal,
+      SUM(CASE WHEN td.type = 'Credit' THEN td.amount ELSE 0 END) AS pengurangan_modal
+    FROM transaksi_detail td
+    JOIN coa_account ca ON td.account = ca.code
+    JOIN coa_subaccount cs ON td.sub_account = cs.code
+    WHERE ca.type = 'Ekuitas'
+      AND td.created_at BETWEEN '${startDate}' AND '${endDate}'
+    GROUP BY ca.name, cs.name;
+      `;
+    const results = await executeQuery(sql);
+    return results;
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.getArusKasByPeriode = async (startDate, endDate) => {
+  try {
+    const sql = `
+    -- Laporan Arus Kas (Cash Flow Statement)
+    (SELECT
+      'Operasi' AS jenis,
+      SUM(CASE WHEN td.type = 'Debit' AND ca.type = 'Aset' THEN td.amount
+               WHEN td.type = 'Credit' AND ca.type = 'Pendapatan' THEN td.amount * -1
+               ELSE 0 END) AS arus_kas_operasi
+    FROM transaksi_detail td
+    JOIN coa_account ca ON td.account = ca.code
+    WHERE td.created_at BETWEEN '${startDate}' AND '${endDate}')
+
+    UNION
+
+    (SELECT
+      'Investasi' AS jenis,
+      SUM(CASE WHEN td.type = 'Debit' AND ca.type = 'Aset' THEN td.amount * -1
+               WHEN td.type = 'Credit' AND ca.type = 'Aset' THEN td.amount
+               ELSE 0 END) AS arus_kas_investasi
+    FROM transaksi_detail td
+    JOIN coa_account ca ON td.account = ca.code
+    WHERE td.created_at BETWEEN '${startDate}' AND '${endDate}')
+
+    UNION
+
+    (SELECT
+      'Pembiayaan' AS jenis,
+      SUM(CASE WHEN td.type = 'Debit' AND ca.type = 'Ekuitas' THEN td.amount * -1
+               WHEN td.type = 'Credit' AND ca.type = 'Ekuitas' THEN td.amount
+               ELSE 0 END) AS arus_kas_pembiayaan
+    FROM transaksi_detail td
+    JOIN coa_account ca ON td.account = ca.code
+    WHERE td.created_at BETWEEN '${startDate}' AND '${endDate}');
       `;
     const results = await executeQuery(sql);
     return results;

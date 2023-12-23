@@ -145,3 +145,48 @@ exports.getArusKas = async (req, res) => {
     Response.error(res, error.message);
   }
 };
+
+
+exports.getNeracaByPeriode = async (req, res) => {
+  try {
+    const startDate = req.params.startDate;
+    const endDate = req.params.endDate;
+    const neracaByPeriode = await TransaksiModel.getNeracaByPeriode(startDate, endDate);
+    Response.success(res, neracaByPeriode);
+  } catch (error) {
+    Response.error(res, error.message);
+  }
+};
+
+exports.getLabaRugiByPeriode = async (req, res) => {
+  try {
+    const startDate = req.params.startDate;
+    const endDate = req.params.endDate;
+    const labaRugi = await TransaksiModel.getLabaRugiByPeriode(startDate, endDate);
+    Response.success(res, labaRugi);
+  } catch (error) {
+    Response.error(res, error.message);
+  }
+};
+
+exports.getPerubahanModalByPeriode = async (req, res) => {
+  try {
+    const startDate = req.params.startDate;
+    const endDate = req.params.endDate;
+    const labaRugi = await TransaksiModel.getPerubahanModalByPeriode(startDate, endDate);
+    Response.success(res, labaRugi);
+  } catch (error) {
+    Response.error(res, error.message);
+  }
+};
+
+exports.getArusKasByPeriode = async (req, res) => {
+  try {
+    const startDate = req.params.startDate;
+    const endDate = req.params.endDate;
+    const labaRugi = await TransaksiModel.getArusKasByPeriode(startDate, endDate);
+    Response.success(res, labaRugi);
+  } catch (error) {
+    Response.error(res, error.message);
+  }
+};
